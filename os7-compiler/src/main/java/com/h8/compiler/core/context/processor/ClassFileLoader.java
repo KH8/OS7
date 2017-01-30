@@ -1,7 +1,8 @@
-package com.h8.compiler.core.reflection;
+package com.h8.compiler.core.context.processor;
 
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.common.StringFormatter;
+import com.h8.compiler.core.context.CompilationContext;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,17 +14,23 @@ import java.util.List;
 
 import static java.net.URLClassLoader.newInstance;
 
-public class ClassFileLoader {
+public class ClassFileLoader extends AbstractProcessor {
     private static final String CLASS_EXTENSION = ".class";
     private static final String TARGET_CLASSES_LOCATION = "/target/classes/";
 
     private File directory;
     private URLClassLoader loader;
 
-    public ClassFileLoader(String directoryName)
-            throws FileNotFoundException, MalformedURLException {
-        directory = new File(directoryName + TARGET_CLASSES_LOCATION);
+    public ClassFileLoader(CompilationContext context) {
+        super(context);
+    }
+
+    @Override
+    public void process()
+            throws Exception {
+        directory = new File(context.getWorkingDirectory() + TARGET_CLASSES_LOCATION);
         initialize();
+        loadClasses();
     }
 
     private void initialize()
@@ -42,8 +49,10 @@ public class ClassFileLoader {
         loader = newInstance(urls);
     }
 
-    public List<Class> listAllClasses() {
-        return listAllClasses(directory);
+    private void loadClasses() {
+        List<Class> classList = listAllClasses(directory);
+        Logger.log(ClassFileLoader.class, "Found {1} classes", classList.size());
+        context.setClassList(classList);
     }
 
     private List<Class> listAllClasses(File file) {
@@ -77,8 +86,8 @@ public class ClassFileLoader {
 
     private String getClassName(File file) {
         return file.getAbsolutePath()
-             .replace(directory.getAbsolutePath() + "/", "")
-             .replace(".class", "")
-             .replace('/', '.');
+                .replace(directory.getAbsolutePath() + "/", "")
+                .replace(".class", "")
+                .replace('/', '.');
     }
 }
