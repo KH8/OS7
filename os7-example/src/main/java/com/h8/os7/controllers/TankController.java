@@ -12,7 +12,7 @@ public class TankController {
     private static final int ALARM_LEVEL = 120;
 
     @Use
-    ExampleTankLevelInterface exampleTankLevelInterface;
+    private ExampleTankLevelInterface exampleTankLevelInterface;
 
     @Runner(RunnerType.OB1)
     public void run() {

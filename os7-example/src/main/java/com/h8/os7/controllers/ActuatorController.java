@@ -13,14 +13,14 @@ import com.h8.os7.interfaces.ExampleControlDeskInterface;
 @Controller("actuatorController")
 public class ActuatorController {
     @Use
-    ExampleActuatorInterface exampleActuatorInterface;
+    private ExampleActuatorInterface exampleActuatorInterface;
 
     @Use
-    ExampleControlDeskInterface exampleControlDeskInterface;
+    private ExampleControlDeskInterface exampleControlDeskInterface;
 
     @Instantiate
     @Inject("exampleActuatorInterface")
-    Actuator actuator;
+    private Actuator actuator;
 
     @Runner(RunnerType.OB1)
     public void run() {
