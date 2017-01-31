@@ -7,9 +7,9 @@ import com.h8.compiler.core.context.processor.ComponentInstanceFinder;
 public class CompilationContextBuilder extends CompilationContext {
     public CompilationContextBuilder() {}
 
-    public void buildForWorkingDirectory(String workingDirectory) {
-        this.setWorkingDirectory(workingDirectory);
-        Logger.log(CompilationContextBuilder.class, "Working directory: {1}", workingDirectory);
+    public void buildForWorkingDirectory(String wd) {
+        this.setWorkingDirectory(wd);
+        Logger.log(CompilationContextBuilder.class, "Working directory: {1}", wd);
         build();
     }
 
