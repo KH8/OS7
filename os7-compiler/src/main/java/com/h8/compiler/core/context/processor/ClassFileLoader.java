@@ -3,6 +3,7 @@ package com.h8.compiler.core.context.processor;
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.common.StringFormatter;
 import com.h8.compiler.core.context.CompilationContext;
+import com.h8.compiler.exception.CompilationFailedException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,20 +22,19 @@ public class ClassFileLoader extends AbstractProcessor {
     private File directory;
     private URLClassLoader loader;
 
-    public ClassFileLoader(CompilationContext context) {
+    public ClassFileLoader(CompilationContext context)
+            throws CompilationFailedException {
         super(context);
-    }
-
-    @Override
-    public void process()
-            throws Exception {
-        directory = new File(context.getWorkingDirectory() + TARGET_CLASSES_LOCATION);
-        initialize();
-        loadClasses();
+        try {
+            initialize();
+        } catch (FileNotFoundException | MalformedURLException e) {
+            throw new CompilationFailedException("Class loader could not be initialized", e);
+        }
     }
 
     private void initialize()
             throws FileNotFoundException, MalformedURLException {
+        directory = new File(context.getDirectory() + TARGET_CLASSES_LOCATION);
         if (directory.exists() && directory.isDirectory()) {
             initializeLoader();
         } else {
@@ -49,10 +49,16 @@ public class ClassFileLoader extends AbstractProcessor {
         loader = newInstance(urls);
     }
 
+    @Override
+    public void process()
+            throws CompilationFailedException {
+        loadClasses();
+    }
+
     private void loadClasses() {
         List<Class> classList = listAllClasses(directory);
         Logger.log(ClassFileLoader.class, "Found {1} classes", classList.size());
-        context.setClassList(classList);
+        context.setClasses(classList);
     }
 
     private List<Class> listAllClasses(File file) {

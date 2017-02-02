@@ -9,7 +9,7 @@ import java.util.Map;
 @Setter
 @Getter
 public class CompilationContext {
-    private String workingDirectory;
-    private List<Class> classList;
-    private Map<String, ComponentInstance> instances;
+    private String directory;
+    private List<Class> classes;
+    private Map<String, Instance> instances;
 }
