@@ -5,6 +5,7 @@ import com.h8.compiler.core.context.CompilationContextBuilder;
 import com.h8.compiler.exception.CompilationFailedException;
 
 public class Main {
+    private static Logger LOGGER = Logger.get(Main.class);
 
     public static void main(String[] args) {
         String directory = getWorkingDirectory(args);
@@ -19,7 +20,7 @@ public class Main {
         try {
             new CompilationContextBuilder().build(directory);
         } catch (CompilationFailedException e) {
-            Logger.log(Main.class, "Compilation context build failed");
+            LOGGER.log("Compilation context build failed");
             e.printStackTrace();
         }
     }

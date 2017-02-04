@@ -15,20 +15,22 @@ import java.util.List;
 
 import static java.net.URLClassLoader.newInstance;
 
-public class ClassFileLoader extends AbstractProcessor {
+public class ClassFileProcessor extends AbstractProcessor {
+    private static final Logger LOGGER = Logger.get(ClassFileProcessor.class);
+
     private static final String CLASS_EXTENSION = ".class";
     private static final String TARGET_CLASSES_LOCATION = "/target/classes/";
 
     private File directory;
     private URLClassLoader loader;
 
-    public ClassFileLoader(CompilationContext context)
+    public ClassFileProcessor(CompilationContext context)
             throws CompilationFailedException {
         super(context);
         try {
             initialize();
         } catch (FileNotFoundException | MalformedURLException e) {
-            throw new CompilationFailedException("Class loader could not be initialized", e);
+            throw new CompilationFailedException("Class processor could not be initialized", e);
         }
     }
 
@@ -57,7 +59,7 @@ public class ClassFileLoader extends AbstractProcessor {
 
     private void loadClasses() {
         List<Class> classList = listAllClasses(directory);
-        Logger.log(ClassFileLoader.class, "Found {1} classes", classList.size());
+        LOGGER.log("Found {1} classes", classList.size());
         context.setClasses(classList);
     }
 
@@ -73,6 +75,7 @@ public class ClassFileLoader extends AbstractProcessor {
         } else if (file.getName().endsWith(CLASS_EXTENSION)) {
             Class c = getClass(file);
             if (c != null) {
+                LOGGER.log("Found class : {1}", c.getSimpleName());
                 list.add(c);
             }
         }
@@ -85,7 +88,7 @@ public class ClassFileLoader extends AbstractProcessor {
         try {
             return loader.loadClass(className);
         } catch (ClassNotFoundException e) {
-            Logger.log(ClassFileLoader.class, "Class '{1}' could not be found", className);
+            LOGGER.log("Class '{1}' could not be found", className);
             return null;
         }
     }

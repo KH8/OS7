@@ -9,19 +9,27 @@ import com.h8.compiler.core.definitions.annotations.components.structure.Structu
 import com.h8.compiler.exception.CompilationFailedException;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
+import java.util.ArrayList;
 
-public class StructureComponentFinder extends AbstractProcessor {
-    public StructureComponentFinder(CompilationContext context) {
+public class ComponentStructureProcessor extends AbstractProcessor {
+    private static final Logger LOGGER = Logger.get(ComponentStructureProcessor.class);
+
+    public ComponentStructureProcessor(CompilationContext context) {
         super(context);
     }
 
     @Override
     public void process()
             throws CompilationFailedException {
-        context.setInstances(new HashMap<>());
+        initializeInstanceMap();
         for (Class c : context.getClasses()) {
             buildStructureComponent(c);
+        }
+    }
+
+    private void initializeInstanceMap() {
+        if (context.getInstances() == null) {
+            context.setInstances(new ArrayList<>());
         }
     }
 
@@ -38,8 +46,8 @@ public class StructureComponentFinder extends AbstractProcessor {
     private Instance buildStructureComponent(Class c, StructureAnnotationDefinition d) {
         Annotation a = getAnnotation(c, d);
         if (a != null) {
-            Logger.log(StructureComponentFinder.class, "Found structure component class '{1}' annotated as '{2}'",
-                    c.getSimpleName(), a.annotationType());
+            LOGGER.log("Found structure component class '{1} [{2}]' annotated as '{3}'",
+                    d.getName(a), c.getSimpleName(), a.annotationType().getSimpleName());
             return getNewInstance(c, a, d);
         }
         return null;
@@ -60,11 +68,10 @@ public class StructureComponentFinder extends AbstractProcessor {
 
     private void addInstanceToContext(Instance i)
             throws CompilationFailedException {
-        String name = i.getName();
-        if (!context.getInstances().containsKey(name)) {
-            context.getInstances().put(name, i);
+        if (!context.getInstances().contains(i)) {
+            context.getInstances().add(i);
         } else {
-            String message = StringFormatter.format("Component instance name {1} already exists", name);
+            String message = StringFormatter.format("Component instance name '{1}' already exists", i.getName());
             throw new CompilationFailedException(message);
         }
     }
