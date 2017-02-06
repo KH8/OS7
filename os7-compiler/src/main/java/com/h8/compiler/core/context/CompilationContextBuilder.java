@@ -2,8 +2,9 @@ package com.h8.compiler.core.context;
 
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.core.context.processor.ClassFileProcessor;
-import com.h8.compiler.core.context.processor.ComponentDependenciesProcessor;
-import com.h8.compiler.core.context.processor.ComponentStructureProcessor;
+import com.h8.compiler.core.context.processor.InstantiateAnnotationProcessor;
+import com.h8.compiler.core.context.processor.StructureAnnotationProcessor;
+import com.h8.compiler.core.context.processor.UseAnnotationProcessor;
 import com.h8.compiler.exception.CompilationFailedException;
 
 public class CompilationContextBuilder extends CompilationContext {
@@ -15,8 +16,9 @@ public class CompilationContextBuilder extends CompilationContext {
             throws CompilationFailedException {
         this.buildForDirectory(directory)
                 .buildClassList()
-                .buildStructureComponents()
-                .buildStructureComponentDependencies();
+                .buildComponentInstances()
+                .buildComponentFieldInstances()
+                .injectComponentInstancesToFields();
     }
 
     private CompilationContextBuilder buildForDirectory(String directory) {
@@ -31,15 +33,21 @@ public class CompilationContextBuilder extends CompilationContext {
         return this;
     }
 
-    private CompilationContextBuilder buildStructureComponents()
+    private CompilationContextBuilder buildComponentInstances()
             throws CompilationFailedException {
-        new ComponentStructureProcessor(this).process();
+        new StructureAnnotationProcessor(this).process();
         return this;
     }
 
-    private CompilationContextBuilder buildStructureComponentDependencies()
+    private CompilationContextBuilder buildComponentFieldInstances()
             throws CompilationFailedException {
-        new ComponentDependenciesProcessor(this).process();
+        new InstantiateAnnotationProcessor(this).process();
+        return this;
+    }
+
+    private CompilationContextBuilder injectComponentInstancesToFields()
+            throws CompilationFailedException {
+        new UseAnnotationProcessor(this).process();
         return this;
     }
 }

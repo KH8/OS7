@@ -16,4 +16,5 @@ public class Instance {
     private Annotation annotation;
     private Definition definition;
     private List<Instance> fields = new ArrayList<>();
+    private boolean fieldsInstantiated;
 }
