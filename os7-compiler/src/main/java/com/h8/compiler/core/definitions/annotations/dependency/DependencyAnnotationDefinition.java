@@ -6,7 +6,7 @@ import com.h8.os7.core.annotations.dependency.*;
 import lombok.Getter;
 
 public enum DependencyAnnotationDefinition implements Definition {
-    INJECT(Inject.class, new InjectHandler()),
+    INJECT(Inject.class, new InstanceInjector()),
     INJECTABLE(Injectable.class, new InjectableHandler()),
     INSTANTIATE(Instantiate.class, new FieldInstanceBuilderHandler()),
     USE(Use.class, new FieldInstanceInjector());

@@ -1,10 +1,7 @@
 package com.h8.compiler.core.context;
 
 import com.h8.compiler.common.Logger;
-import com.h8.compiler.core.context.processor.ClassFileProcessor;
-import com.h8.compiler.core.context.processor.InstantiateAnnotationProcessor;
-import com.h8.compiler.core.context.processor.StructureAnnotationProcessor;
-import com.h8.compiler.core.context.processor.UseAnnotationProcessor;
+import com.h8.compiler.core.context.processor.*;
 import com.h8.compiler.exception.CompilationFailedException;
 
 public class CompilationContextBuilder extends CompilationContext {
@@ -18,7 +15,8 @@ public class CompilationContextBuilder extends CompilationContext {
                 .buildClassList()
                 .buildComponentInstances()
                 .buildComponentFieldInstances()
-                .injectComponentInstancesToFields();
+                .injectComponentInstancesToFields()
+                .injectComponentFieldsInstancesToFields();
     }
 
     private CompilationContextBuilder buildForDirectory(String directory) {
@@ -48,6 +46,12 @@ public class CompilationContextBuilder extends CompilationContext {
     private CompilationContextBuilder injectComponentInstancesToFields()
             throws CompilationFailedException {
         new UseAnnotationProcessor(this).process();
+        return this;
+    }
+
+    private CompilationContextBuilder injectComponentFieldsInstancesToFields()
+            throws CompilationFailedException {
+        new InjectAnnotationProcessor(this).process();
         return this;
     }
 }

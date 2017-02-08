@@ -33,7 +33,7 @@ public class StructureComponentInstanceBuilder<T extends Annotation> implements 
         Instance i = new Instance();
         i.setName(this.resolver.getName(a));
         i.setC(c);
-        i.setAnnotation(a);
+        i.getAnnotations().add(a);
         i.setDefinition(this.definition);
         return i;
     }

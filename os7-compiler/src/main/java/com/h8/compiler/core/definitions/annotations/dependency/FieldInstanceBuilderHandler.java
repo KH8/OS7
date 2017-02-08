@@ -16,18 +16,19 @@ class FieldInstanceBuilderHandler implements FieldAnnotationHandler<Instantiate>
     @Override
     public void handle(CompilationContext context, Instantiate a, Instance parent, Field f)
             throws CompilationFailedException {
-        Instance i = getNewInstance(parent, f);
+        Instance i = getNewInstance(parent, a, f);
         context.addInstance(i);
         LOGGER.log("Found component field '{1} [{2}]' annotated as '{3}' - instantiated",
                 i.getName(), f.getType().getSimpleName(), a.annotationType().getSimpleName());
         addFieldInstanceToParent(parent, i);
     }
 
-    private Instance getNewInstance(Instance parent, Field f) {
+    private Instance getNewInstance(Instance parent, Instantiate a, Field f) {
         Instance i = new Instance();
         i.setName(getNewInstanceName(parent, f));
         i.setC(f.getType());
         i.setDefinition(DependencyAnnotationDefinition.INSTANTIATE);
+        i.getAnnotations().add(a);
         return i;
     }
 
