@@ -11,7 +11,7 @@ public class Actuator {
 
     private Mode mode;
 
-    @Injectable
+    @Injectable("exampleActuatorInterface")
     private ActuatorInterface i;
 
     public void moveForward() {

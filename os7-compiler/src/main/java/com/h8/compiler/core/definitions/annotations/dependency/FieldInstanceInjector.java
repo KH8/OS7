@@ -10,7 +10,7 @@ import com.h8.os7.core.annotations.dependency.Use;
 import java.lang.reflect.Field;
 
 public class FieldInstanceInjector implements FieldAnnotationHandler<Use> {
-    private static final Logger LOGGER = Logger.get(FieldInstanceBuilderHandler.class);
+    private static final Logger LOGGER = Logger.get(FieldInstanceBuilder.class);
 
     @Override
     public void handle(CompilationContext context, Use a, Instance i, Field f)

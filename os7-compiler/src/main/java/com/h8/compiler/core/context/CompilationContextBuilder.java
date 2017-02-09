@@ -4,6 +4,7 @@ import com.h8.compiler.common.Logger;
 import com.h8.compiler.core.context.processor.*;
 import com.h8.compiler.core.context.processor.components.structure.StructureAnnotationProcessor;
 import com.h8.compiler.core.context.processor.dependency.InjectAnnotationProcessor;
+import com.h8.compiler.core.context.processor.dependency.InjectableAnnotationProcessor;
 import com.h8.compiler.core.context.processor.dependency.InstantiateAnnotationProcessor;
 import com.h8.compiler.core.context.processor.dependency.UseAnnotationProcessor;
 import com.h8.compiler.exception.CompilationFailedException;
@@ -17,10 +18,11 @@ public class CompilationContextBuilder extends CompilationContext {
             throws CompilationFailedException {
         this.buildForDirectory(directory)
                 .buildClassList()
-                .buildComponentInstances()
-                .buildComponentFieldInstances()
-                .injectComponentInstancesToFields()
-                .injectComponentFieldsInstancesToFields();
+                .processStructureAnnotations()
+                .processInstantiateAnnotations()
+                .processUseAnnotations()
+                .processInjectAnnotations()
+                .processInjectableAnnotations();
     }
 
     private CompilationContextBuilder buildForDirectory(String directory) {
@@ -35,27 +37,33 @@ public class CompilationContextBuilder extends CompilationContext {
         return this;
     }
 
-    private CompilationContextBuilder buildComponentInstances()
+    private CompilationContextBuilder processStructureAnnotations()
             throws CompilationFailedException {
         new StructureAnnotationProcessor(this).process();
         return this;
     }
 
-    private CompilationContextBuilder buildComponentFieldInstances()
+    private CompilationContextBuilder processInstantiateAnnotations()
             throws CompilationFailedException {
         new InstantiateAnnotationProcessor(this).process();
         return this;
     }
 
-    private CompilationContextBuilder injectComponentInstancesToFields()
+    private CompilationContextBuilder processUseAnnotations()
             throws CompilationFailedException {
         new UseAnnotationProcessor(this).process();
         return this;
     }
 
-    private CompilationContextBuilder injectComponentFieldsInstancesToFields()
+    private CompilationContextBuilder processInjectAnnotations()
             throws CompilationFailedException {
         new InjectAnnotationProcessor(this).process();
+        return this;
+    }
+
+    private CompilationContextBuilder processInjectableAnnotations()
+            throws CompilationFailedException {
+        new InjectableAnnotationProcessor(this).process();
         return this;
     }
 }

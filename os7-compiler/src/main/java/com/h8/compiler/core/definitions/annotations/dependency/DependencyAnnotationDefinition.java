@@ -10,8 +10,8 @@ import java.util.Optional;
 
 public enum DependencyAnnotationDefinition implements Definition {
     INJECT(Inject.class, new InstanceInjector()),
-    INJECTABLE(Injectable.class, new InjectableHandler()),
-    INSTANTIATE(Instantiate.class, new FieldInstanceBuilderHandler()),
+    INJECTABLE(Injectable.class, new InjectableInstanceFinder()),
+    INSTANTIATE(Instantiate.class, new FieldInstanceBuilder()),
     USE(Use.class, new FieldInstanceInjector());
 
     Class c;
