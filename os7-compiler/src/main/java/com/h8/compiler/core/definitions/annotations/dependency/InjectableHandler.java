@@ -7,7 +7,7 @@ import com.h8.os7.core.annotations.dependency.Injectable;
 
 import java.lang.reflect.Field;
 
-class InjectableHandler implements FieldAnnotationHandler<Injectable> {
+public class InjectableHandler implements FieldAnnotationHandler<Injectable> {
     @Override
     public void handle(CompilationContext context, Injectable a, Instance i, Field f) {
 

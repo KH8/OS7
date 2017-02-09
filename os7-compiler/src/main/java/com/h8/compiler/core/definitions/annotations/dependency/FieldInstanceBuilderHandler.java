@@ -10,7 +10,7 @@ import com.h8.os7.core.annotations.dependency.Instantiate;
 
 import java.lang.reflect.Field;
 
-class FieldInstanceBuilderHandler implements FieldAnnotationHandler<Instantiate> {
+public class FieldInstanceBuilderHandler implements FieldAnnotationHandler<Instantiate> {
     private static final Logger LOGGER = Logger.get(FieldInstanceBuilderHandler.class);
 
     @Override

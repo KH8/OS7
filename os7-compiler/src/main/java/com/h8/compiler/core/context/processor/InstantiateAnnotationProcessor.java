@@ -1,14 +1,15 @@
 package com.h8.compiler.core.context.processor;
 
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.definitions.annotations.components.handlers.FieldAnnotationHandler;
-import com.h8.compiler.core.definitions.annotations.dependency.DependencyAnnotationDefinition;
+import com.h8.compiler.core.context.Instance;
 import com.h8.compiler.exception.CompilationFailedException;
 import com.h8.os7.core.annotations.dependency.Instantiate;
 
-public class InstantiateAnnotationProcessor extends AbstractProcessor {
+import java.lang.reflect.Field;
+
+public class InstantiateAnnotationProcessor extends AbstractDependencyAnnotationProcessor<Instantiate> {
     public InstantiateAnnotationProcessor(CompilationContext context) {
-        super(context);
+        super(context, Instantiate.class);
     }
 
     @Override
@@ -20,21 +21,17 @@ public class InstantiateAnnotationProcessor extends AbstractProcessor {
     private void instantiateFields()
             throws CompilationFailedException {
         int initialNumberOfInstances = context.getInstances().size();
-        findAndInstantiateNewFields();
+        super.process();
         if (context.getInstances().size() > initialNumberOfInstances) {
             instantiateFields();
         }
     }
 
-    private void findAndInstantiateNewFields()
+    @Override
+    protected void handleField(Instance i, Field f)
             throws CompilationFailedException {
-        iterateThroughAllInstanceClassFields((i, f)  -> {
-            if (i.isFieldsInstantiated()) return;
-            Instantiate a = f.getAnnotation(Instantiate.class);
-            if (a != null) {
-                FieldAnnotationHandler h = DependencyAnnotationDefinition.INSTANTIATE.getHandler();
-                h.handle(context, a, i, f);
-            }
-        });
+        if (!i.isFieldsInstantiated()) {
+            super.handleField(i, f);
+        }
     }
 }

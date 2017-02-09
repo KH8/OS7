@@ -5,6 +5,9 @@ import com.h8.compiler.core.definitions.annotations.components.handlers.FieldAnn
 import com.h8.os7.core.annotations.dependency.*;
 import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum DependencyAnnotationDefinition implements Definition {
     INJECT(Inject.class, new InstanceInjector()),
     INJECTABLE(Injectable.class, new InjectableHandler()),
@@ -24,5 +27,13 @@ public enum DependencyAnnotationDefinition implements Definition {
     @Override
     public Class getDefinedClass() {
         return this.c;
+    }
+
+    public static DependencyAnnotationDefinition getByClass(Class c) {
+        DependencyAnnotationDefinition[] definitions = DependencyAnnotationDefinition.values();
+        Optional<DependencyAnnotationDefinition> result = Arrays.asList(definitions).stream()
+                .filter(d -> d.getDefinedClass().equals(c))
+                .findFirst();
+        return result.isPresent() ? result.get() : null;
     }
 }
