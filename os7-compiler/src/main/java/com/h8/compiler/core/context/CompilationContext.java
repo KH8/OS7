@@ -42,7 +42,7 @@ public class CompilationContext {
         return result.get();
     }
 
-    public Stream<Instance> getInstanceByClassOrNameStream(Class c, String n) {
+    private Stream<Instance> getInstanceByClassOrNameStream(Class c, String n) {
         return instances.stream().filter(i -> {
             boolean result = i.getC().equals(c);
             if (n != null && !n.isEmpty()) {

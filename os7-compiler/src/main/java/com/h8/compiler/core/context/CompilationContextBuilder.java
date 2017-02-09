@@ -2,6 +2,10 @@ package com.h8.compiler.core.context;
 
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.core.context.processor.*;
+import com.h8.compiler.core.context.processor.components.structure.StructureAnnotationProcessor;
+import com.h8.compiler.core.context.processor.dependency.InjectAnnotationProcessor;
+import com.h8.compiler.core.context.processor.dependency.InstantiateAnnotationProcessor;
+import com.h8.compiler.core.context.processor.dependency.UseAnnotationProcessor;
 import com.h8.compiler.exception.CompilationFailedException;
 
 public class CompilationContextBuilder extends CompilationContext {

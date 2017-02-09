@@ -1,4 +1,4 @@
-package com.h8.compiler.core.context.processor;
+package com.h8.compiler.core.context.processor.dependency;
 
 import com.h8.compiler.core.context.CompilationContext;
 import com.h8.os7.core.annotations.dependency.Use;

@@ -9,24 +9,24 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 @AllArgsConstructor
-abstract class AbstractProcessor implements Processor {
+public abstract class AbstractProcessor implements Processor {
     protected CompilationContext context;
 
-    void iterateThroughClasses(Handler<Class> h)
+    protected void iterateThroughClasses(Handler<Class> h)
             throws CompilationFailedException {
         for (Class c : new ArrayList<>(context.getClasses())) {
             h.handle(c);
         }
     }
 
-    void iterateThroughInstances(Handler<Instance> h)
+    private void iterateThroughInstances(Handler<Instance> h)
             throws CompilationFailedException {
         for (Instance i : new ArrayList<>(context.getInstances())) {
             h.handle(i);
         }
     }
 
-    void iterateThroughAllInstanceClassFields(FieldHandler h)
+    protected void iterateThroughAllInstanceClassFields(FieldHandler h)
             throws CompilationFailedException {
         iterateThroughInstances(i -> iterateThroughInstanceClassFields(i, h));
     }
@@ -39,11 +39,11 @@ abstract class AbstractProcessor implements Processor {
         }
     }
 
-    interface FieldHandler {
+    protected interface FieldHandler {
         void handle(Instance i, Field f) throws CompilationFailedException;
     }
 
-    interface Handler<T> {
+    protected interface Handler<T> {
         void handle(T t) throws CompilationFailedException;
     }
 }

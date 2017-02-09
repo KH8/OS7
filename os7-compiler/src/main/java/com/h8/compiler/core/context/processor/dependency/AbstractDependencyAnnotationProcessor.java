@@ -1,7 +1,8 @@
-package com.h8.compiler.core.context.processor;
+package com.h8.compiler.core.context.processor.dependency;
 
 import com.h8.compiler.core.context.CompilationContext;
 import com.h8.compiler.core.context.Instance;
+import com.h8.compiler.core.context.processor.AbstractProcessor;
 import com.h8.compiler.core.definitions.annotations.dependency.DependencyAnnotationDefinition;
 import com.h8.compiler.exception.CompilationFailedException;
 
@@ -24,9 +25,7 @@ public class AbstractDependencyAnnotationProcessor<T extends Annotation> extends
 
     private void handleFields()
             throws CompilationFailedException {
-        iterateThroughAllInstanceClassFields((i, f)  -> {
-            handleField(i, f);
-        });
+        iterateThroughAllInstanceClassFields(this::handleField);
     }
 
     protected void handleField(Instance i, Field f)
