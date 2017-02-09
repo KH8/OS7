@@ -1,7 +1,7 @@
-package com.h8.compiler.core.context.processor.components.structure;
+package com.h8.compiler.core.processors.components.structure;
 
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.context.processor.AbstractProcessor;
+import com.h8.compiler.core.processors.AbstractProcessor;
 import com.h8.compiler.core.definitions.Definition;
 import com.h8.compiler.core.definitions.annotations.components.structure.StructureAnnotationDefinition;
 import com.h8.compiler.exception.CompilationFailedException;

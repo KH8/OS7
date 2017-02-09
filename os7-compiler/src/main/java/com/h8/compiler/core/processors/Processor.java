@@ -1,4 +1,4 @@
-package com.h8.compiler.core.context.processor;
+package com.h8.compiler.core.processors;
 
 import com.h8.compiler.exception.CompilationFailedException;
 
