@@ -1,36 +1,42 @@
 package com.h8.compiler.core.context;
 
-import com.h8.compiler.core.definitions.Definition;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-@Setter
-@Getter
 public class Instance {
+    public Instance(String name, Class c) {
+        this.id = InstanceIdGenerator.getNextId();
+        this.name = name;
+        this.c = c;
+    }
+
+    @Getter
+    private String id;
+
+    @Getter
     private String name;
+
+    @Getter
     private Class c;
-    private List<Annotation> annotations = new ArrayList<>();
-    private Definition definition;
-    private List<Instance> fields = new ArrayList<>();
+
+    @Getter
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private Map<String, Instance> fields = new HashMap<>();
+
+    @Getter
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private Map<String, Instance> injected = new HashMap<>();
+
+    @Setter @Getter
     private boolean fieldsInstantiated;
-    private List<Instance> injected = new ArrayList<>();
 
     public Instance getFieldByName(String name) {
-        return getInstanceFromListByName(fields, name);
+        return fields.get(name);
     }
 
     public Instance getInjectedByName(String name) {
-        return getInstanceFromListByName(injected, name);
+        return injected.get(name);
     }
-
-    private Instance getInstanceFromListByName(List<Instance> list, String name) {
-        Optional<Instance> result = list.stream().filter(f -> f.getName().equals(name)).findFirst();
-        return result.isPresent() ? result.get() : null;
-    }
-
 }

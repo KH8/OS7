@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum DependencyAnnotationDefinition implements Definition {
-    INJECT(Inject.class, new InstanceInjector()),
-    INJECTABLE(Injectable.class, new InjectableInstanceFinder()),
+    INJECT(Inject.class, new InjectableInstanceProvider()),
+    INJECTABLE(Injectable.class, new InjectableInstanceInjector()),
     INSTANTIATE(Instantiate.class, new FieldInstanceBuilder()),
-    USE(Use.class, new FieldInstanceInjector());
+    USE(Use.class, new ComponentInjector());
 
     Class c;
 
@@ -31,7 +31,7 @@ public enum DependencyAnnotationDefinition implements Definition {
 
     public static DependencyAnnotationDefinition getByClass(Class c) {
         DependencyAnnotationDefinition[] definitions = DependencyAnnotationDefinition.values();
-        Optional<DependencyAnnotationDefinition> result = Arrays.asList(definitions).stream()
+        Optional<DependencyAnnotationDefinition> result = Arrays.stream(definitions)
                 .filter(d -> d.getDefinedClass().equals(c))
                 .findFirst();
         return result.isPresent() ? result.get() : null;

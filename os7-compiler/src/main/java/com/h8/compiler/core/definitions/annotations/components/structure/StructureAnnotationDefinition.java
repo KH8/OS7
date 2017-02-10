@@ -14,11 +14,11 @@ public enum StructureAnnotationDefinition implements Definition {
     Class c;
 
     @Getter
-    StructureComponentInstanceBuilder<Annotation> handler;
+    ComponentInstanceBuilder<Annotation> handler;
 
     StructureAnnotationDefinition(Class c, ComponentNameResolver<java.lang.annotation.Annotation> resolver) {
         this.c = c;
-        this.handler = new StructureComponentInstanceBuilder<>(resolver, this);
+        this.handler = new ComponentInstanceBuilder<>(resolver);
     }
 
     @Override

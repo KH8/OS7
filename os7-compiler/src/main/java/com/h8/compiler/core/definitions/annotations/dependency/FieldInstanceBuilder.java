@@ -14,30 +14,21 @@ public class FieldInstanceBuilder implements FieldAnnotationHandler<Instantiate>
     private static final Logger LOGGER = Logger.get(FieldInstanceBuilder.class);
 
     @Override
-    public void handle(CompilationContext context, Instantiate a, Instance parent, Field f)
+    public void handle(CompilationContext context, Instantiate a, Instance i, Field f)
             throws CompilationFailedException {
-        Instance i = getNewInstance(parent, a, f);
-        context.addInstance(i);
-        LOGGER.log("Found component field '{1} [{2}]' annotated as '{3}' - instantiated",
-                i.getName(), f.getType().getSimpleName(), a.annotationType().getSimpleName());
-        addFieldInstanceToParent(parent, i);
+        String name = getNewInstanceName(i, f);
+        Instance fi = new Instance(name, f.getType());
+        context.putInstance(name, fi);
+        LOGGER.log("New instance for field '{1} [{2}] created'", name, f.getType().getSimpleName());
+        addFieldInstanceToParent(i, fi);
     }
 
-    private Instance getNewInstance(Instance parent, Instantiate a, Field f) {
-        Instance i = new Instance();
-        i.setName(getNewInstanceName(parent, f));
-        i.setC(f.getType());
-        i.setDefinition(DependencyAnnotationDefinition.INSTANTIATE);
-        i.getAnnotations().add(a);
-        return i;
+    private String getNewInstanceName(Instance i, Field f) {
+        return StringFormatter.format("{1}.{2}", i.getName(), f.getName());
     }
 
-    private String getNewInstanceName(Instance parent, Field f) {
-        return StringFormatter.format("{1}.{2}", parent.getName(), f.getName());
-    }
-
-    private void addFieldInstanceToParent(Instance parent, Instance i) {
-        parent.getFields().add(i);
-        parent.setFieldsInstantiated(true);
+    private void addFieldInstanceToParent(Instance i, Instance fi) {
+        i.getFields().put(fi.getName(), fi);
+        i.setFieldsInstantiated(true);
     }
 }

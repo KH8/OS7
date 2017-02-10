@@ -10,18 +10,18 @@ import com.h8.os7.core.annotations.dependency.Injectable;
 
 import java.lang.reflect.Field;
 
-public class InjectableInstanceFinder implements FieldAnnotationHandler<Injectable> {
-    private static final Logger LOGGER = Logger.get(InjectableInstanceFinder.class);
+public class InjectableInstanceInjector implements FieldAnnotationHandler<Injectable> {
+    private static final Logger LOGGER = Logger.get(InjectableInstanceInjector.class);
 
     @Override
     public void handle(CompilationContext context, Injectable a, Instance i, Field f)
             throws CompilationFailedException {
         Instance injected = getInjectedInstance(i, a.value());
         checkInstanceClassCompatibility(injected, f);
-        i.getFields().add(injected);
-        LOGGER.log("Field '{1}.{2} [{3}]' annotated as '{4}' - injected with instance '{5} [{6}]'",
-                i.getName(), f.getName(), f.getType().getSimpleName(), a.annotationType().getSimpleName(),
-                injected.getName(), injected.getC().getSimpleName());
+        i.getFields().put(f.getName(), injected);
+        LOGGER.log("Instance '{1} [{2}]' injected to field '{3}.{4} [{5}]'",
+                injected.getName(), injected.getC().getSimpleName(),
+                i.getName(), f.getName(), f.getType().getSimpleName());
     }
 
     private Instance getInjectedInstance(Instance i, String name)

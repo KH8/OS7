@@ -5,36 +5,50 @@ import com.h8.compiler.exception.CompilationFailedException;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
-@Setter
-@Getter
 public class CompilationContext {
+    @Setter @Getter
     private String directory;
+    @Setter @Getter
     private List<Class> classes;
-    private List<Instance> instances = new ArrayList<>();
+    @Getter
+    private Map<String, Instance> instances = new HashMap<>();
 
-    public void addInstance(Instance i)
+    public void putInstance(String name, Instance i)
             throws CompilationFailedException {
-        if (!instances.contains(i)) {
-            instances.add(i);
+        if (!instances.containsKey(name)) {
+            instances.put(name, i);
         } else {
-            String message = StringFormatter.format("Component instance name '{1}' already exists", i.getName());
+            String message = StringFormatter.format("Component instance name '{1}' already exists", name);
             throw new CompilationFailedException(message);
         }
     }
 
     public Instance getInstanceByClassOrName(Class c, String n)
             throws CompilationFailedException {
-        long count = getInstanceByClassOrNameStream(c, n).count();
+        return n != null && !n.isEmpty() ? getInstanceByName(n) : getInstanceByClass(c);
+    }
+
+    private Instance getInstanceByName(String name)
+            throws CompilationFailedException {
+        Instance result =  instances.get(name);
+        if (result == null) {
+            String message = StringFormatter.format("Could not find candidate with name '{1}'", name);
+            throw new CompilationFailedException(message);
+        }
+        return result;
+    }
+
+    private Instance getInstanceByClass(Class c)
+            throws CompilationFailedException {
+        long count = getInstanceByClassStream(c).count();
         if (count > 1) {
             String message = StringFormatter.format("There is more than one candidate of type '{1}'", c);
             throw new CompilationFailedException(message);
         }
-        Optional<Instance> result = getInstanceByClassOrNameStream(c, n).findFirst();
+        Optional<Instance> result = getInstanceByClassStream(c).findFirst();
         if (!result.isPresent()) {
             String message = StringFormatter.format("Could not find candidate of type '{1}'", c);
             throw new CompilationFailedException(message);
@@ -42,13 +56,7 @@ public class CompilationContext {
         return result.get();
     }
 
-    private Stream<Instance> getInstanceByClassOrNameStream(Class c, String n) {
-        return instances.stream().filter(i -> {
-            boolean result = i.getC().equals(c);
-            if (n != null && !n.isEmpty()) {
-                result &= i.getName().equals(n);
-            }
-            return result;
-        });
+    private Stream<Instance> getInstanceByClassStream(Class c) {
+        return instances.values().stream().filter(i -> i.getC().equals(c));
     }
 }

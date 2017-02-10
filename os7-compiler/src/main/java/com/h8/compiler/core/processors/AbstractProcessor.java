@@ -21,7 +21,7 @@ public abstract class AbstractProcessor implements Processor {
 
     private void iterateThroughInstances(Handler<Instance> h)
             throws CompilationFailedException {
-        for (Instance i : new ArrayList<>(context.getInstances())) {
+        for (Instance i : new ArrayList<>(context.getInstances().values())) {
             h.handle(i);
         }
     }

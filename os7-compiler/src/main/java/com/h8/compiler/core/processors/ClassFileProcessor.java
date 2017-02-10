@@ -75,7 +75,7 @@ public class ClassFileProcessor extends AbstractProcessor {
         } else if (file.getName().endsWith(CLASS_EXTENSION)) {
             Class c = getClass(file);
             if (c != null) {
-                LOGGER.log("Found class : {1}", c.getSimpleName());
+                LOGGER.log("Found class : {1}", c);
                 list.add(c);
             }
         }

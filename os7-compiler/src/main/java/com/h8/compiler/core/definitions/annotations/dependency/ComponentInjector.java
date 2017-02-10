@@ -9,16 +9,15 @@ import com.h8.os7.core.annotations.dependency.Use;
 
 import java.lang.reflect.Field;
 
-public class FieldInstanceInjector implements FieldAnnotationHandler<Use> {
+public class ComponentInjector implements FieldAnnotationHandler<Use> {
     private static final Logger LOGGER = Logger.get(FieldInstanceBuilder.class);
 
     @Override
     public void handle(CompilationContext context, Use a, Instance i, Field f)
             throws CompilationFailedException {
         Instance used = context.getInstanceByClassOrName(f.getType(), a.value());
-        i.getFields().add(used);
-        LOGGER.log("Instance '{1} [{2}]' annotated as '{3}' - injected as field '{4}.{5} [{6}]'",
-                used.getName(), used.getC().getSimpleName(), a.annotationType().getSimpleName(),
-                i.getName(), f.getName(), f.getType().getSimpleName());
+        i.getFields().put(f.getName(), used);
+        LOGGER.log("Component '{1} [{2}]' injected to field '{3} [{4}]'",
+                used.getName(), used.getC().getSimpleName(), f.getName(), f.getType().getSimpleName());
     }
 }
