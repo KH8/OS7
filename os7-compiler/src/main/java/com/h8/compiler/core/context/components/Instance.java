@@ -1,4 +1,4 @@
-package com.h8.compiler.core.context;
+package com.h8.compiler.core.context.components;
 
 import lombok.Getter;
 import lombok.Setter;

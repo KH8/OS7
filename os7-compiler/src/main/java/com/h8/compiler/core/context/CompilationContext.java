@@ -1,6 +1,7 @@
 package com.h8.compiler.core.context;
 
 import com.h8.compiler.common.StringFormatter;
+import com.h8.compiler.core.context.components.Instance;
 import com.h8.compiler.exception.CompilationFailedException;
 import lombok.Getter;
 import lombok.Setter;

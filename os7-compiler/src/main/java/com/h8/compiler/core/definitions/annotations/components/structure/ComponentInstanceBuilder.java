@@ -2,7 +2,7 @@ package com.h8.compiler.core.definitions.annotations.components.structure;
 
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.context.Instance;
+import com.h8.compiler.core.context.components.Instance;
 import com.h8.compiler.core.definitions.annotations.components.handlers.ClassAnnotationHandler;
 import com.h8.compiler.exception.CompilationFailedException;
 

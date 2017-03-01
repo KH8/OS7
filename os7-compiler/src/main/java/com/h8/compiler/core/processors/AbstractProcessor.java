@@ -1,7 +1,7 @@
 package com.h8.compiler.core.processors;
 
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.context.Instance;
+import com.h8.compiler.core.context.components.Instance;
 import com.h8.compiler.exception.CompilationFailedException;
 import lombok.AllArgsConstructor;
 
