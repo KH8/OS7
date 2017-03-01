@@ -1,6 +1,7 @@
 package com.h8.compiler.core.processors;
 
 import com.h8.compiler.core.context.CompilationContext;
+import com.h8.compiler.core.context.components.ClassContext;
 import com.h8.compiler.core.context.components.InstanceContext;
 import com.h8.compiler.exception.CompilationFailedException;
 import lombok.AllArgsConstructor;
@@ -14,8 +15,8 @@ public abstract class AbstractProcessor implements Processor {
 
     protected void iterateThroughClasses(Handler<Class> h)
             throws CompilationFailedException {
-        for (Class c : new ArrayList<>(context.getClasses())) {
-            h.handle(c);
+        for (ClassContext cCtx : new ArrayList<>(context.getClasses())) {
+            h.handle(cCtx.getC());
         }
     }
 

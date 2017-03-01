@@ -12,10 +12,8 @@ import java.util.stream.Stream;
 public class CompilationContext {
     @Setter @Getter
     private String directory;
-    @Setter @Getter
-    private List<Class> classes;
     @Getter
-    private List<ClassContext> _classes = new ArrayList<>();
+    private List<ClassContext> classes = new ArrayList<>();
     @Getter
     private ClassAnnotations classAnnotations = new ClassAnnotations();
     @Getter

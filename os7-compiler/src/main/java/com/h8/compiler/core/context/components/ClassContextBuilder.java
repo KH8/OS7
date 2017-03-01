@@ -8,12 +8,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class ClassContextBuilder {
-    public static ClassContext build(CompilationContext context, Class c) {
+    public static void build(CompilationContext context, Class c) {
         ClassContext cCtx = new ClassContext(c);
+        context.getClasses().add(cCtx);
         propagateAnnotations(context, cCtx);
         buildFieldContexts(context, cCtx);
         buildMethodContexts(context, cCtx);
-        return cCtx;
     }
 
     private static void propagateAnnotations(CompilationContext context, ClassContext cCtx) {

@@ -3,6 +3,7 @@ package com.h8.compiler.core.processors;
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.common.StringFormatter;
 import com.h8.compiler.core.context.CompilationContext;
+import com.h8.compiler.core.context.components.ClassContextBuilder;
 import com.h8.compiler.exception.CompilationFailedException;
 
 import java.io.File;
@@ -58,9 +59,9 @@ public class ClassFileProcessor extends AbstractProcessor {
     }
 
     private void loadClasses() {
-        List<Class> classList = listAllClasses(directory);
-        LOGGER.log("Found {1} classes", classList.size());
-        context.setClasses(classList);
+        List<Class> classes = listAllClasses(directory);
+        LOGGER.log("Found {1} classes", classes.size());
+        buildClassContexts(classes);
     }
 
     private List<Class> listAllClasses(File file) {
@@ -98,5 +99,11 @@ public class ClassFileProcessor extends AbstractProcessor {
                 .replace(directory.getAbsolutePath() + "/", "")
                 .replace(".class", "")
                 .replace('/', '.');
+    }
+
+    private void buildClassContexts(List<Class> classes) {
+        for (Class c : classes) {
+            ClassContextBuilder.build(context, c);
+        }
     }
 }

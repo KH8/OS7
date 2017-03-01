@@ -7,11 +7,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class MethodContextBuilder {
-    public static MethodContext build(CompilationContext context, Method m, ClassContext cCtx) {
+    public static void build(CompilationContext context, Method m, ClassContext cCtx) {
         MethodContext mCtx = new MethodContext(m, cCtx);
         cCtx.getMethods().put(m.getName(), mCtx);
         propagateAnnotations(context, mCtx);
-        return mCtx;
     }
 
     private static void propagateAnnotations(CompilationContext context, MethodContext mCtx) {
