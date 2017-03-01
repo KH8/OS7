@@ -3,7 +3,7 @@ package com.h8.compiler.core.definitions.annotations.dependency;
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.common.StringFormatter;
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.context.components.Instance;
+import com.h8.compiler.core.context.components.InstanceContext;
 import com.h8.compiler.core.definitions.annotations.components.handlers.FieldAnnotationHandler;
 import com.h8.compiler.exception.CompilationFailedException;
 import com.h8.os7.core.annotations.dependency.Injectable;
@@ -14,19 +14,19 @@ public class InjectableInstanceInjector implements FieldAnnotationHandler<Inject
     private static final Logger LOGGER = Logger.get(InjectableInstanceInjector.class);
 
     @Override
-    public void handle(CompilationContext context, Injectable a, Instance i, Field f)
+    public void handle(CompilationContext context, Injectable a, InstanceContext i, Field f)
             throws CompilationFailedException {
-        Instance injected = getInjectedInstance(i, a.value());
+        InstanceContext injected = getInjectedInstance(i, a.value());
         checkInstanceClassCompatibility(injected, f);
         i.getFields().put(f.getName(), injected);
-        LOGGER.log("Instance '{1} [{2}]' injected to field '{3}.{4} [{5}]'",
+        LOGGER.log("InstanceContext '{1} [{2}]' injected to field '{3}.{4} [{5}]'",
                 injected.getName(), injected.getC().getSimpleName(),
                 i.getName(), f.getName(), f.getType().getSimpleName());
     }
 
-    private Instance getInjectedInstance(Instance i, String name)
+    private InstanceContext getInjectedInstance(InstanceContext i, String name)
             throws CompilationFailedException {
-        Instance injected = i.getInjectedByName(name);
+        InstanceContext injected = i.getInjectedByName(name);
         if (injected == null) {
             String message = StringFormatter.format("Component instance '{1}' could not be found", name);
             throw new CompilationFailedException(message);
@@ -34,7 +34,7 @@ public class InjectableInstanceInjector implements FieldAnnotationHandler<Inject
         return injected;
     }
 
-    private void checkInstanceClassCompatibility(Instance injected, Field f)
+    private void checkInstanceClassCompatibility(InstanceContext injected, Field f)
             throws CompilationFailedException {
         Class usedClass = injected.getC();
         if (usedClass == null || !isClassCompatibleWithSuperClass(usedClass, f.getType())) {

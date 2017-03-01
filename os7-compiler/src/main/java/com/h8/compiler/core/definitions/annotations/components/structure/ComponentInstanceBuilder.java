@@ -2,7 +2,7 @@ package com.h8.compiler.core.definitions.annotations.components.structure;
 
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.context.components.Instance;
+import com.h8.compiler.core.context.components.InstanceContext;
 import com.h8.compiler.core.definitions.annotations.components.handlers.ClassAnnotationHandler;
 import com.h8.compiler.exception.CompilationFailedException;
 
@@ -21,7 +21,7 @@ public class ComponentInstanceBuilder<T extends Annotation> implements ClassAnno
     public void handle(CompilationContext context, T a, Class c)
             throws CompilationFailedException {
         String name = this.resolver.getName(a);
-        context.putInstance(name, new Instance(name, c));
+        context.putInstance(name, new InstanceContext(name, c));
         LOGGER.log("New instance for component '{1} [{2}]' created", name, c.getSimpleName());
     }
 }

@@ -1,7 +1,7 @@
 package com.h8.compiler.core.processors;
 
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.context.components.Instance;
+import com.h8.compiler.core.context.components.InstanceContext;
 import com.h8.compiler.exception.CompilationFailedException;
 import lombok.AllArgsConstructor;
 
@@ -19,9 +19,9 @@ public abstract class AbstractProcessor implements Processor {
         }
     }
 
-    private void iterateThroughInstances(Handler<Instance> h)
+    private void iterateThroughInstances(Handler<InstanceContext> h)
             throws CompilationFailedException {
-        for (Instance i : new ArrayList<>(context.getInstances().values())) {
+        for (InstanceContext i : new ArrayList<>(context.getInstances().values())) {
             h.handle(i);
         }
     }
@@ -31,7 +31,7 @@ public abstract class AbstractProcessor implements Processor {
         iterateThroughInstances(i -> iterateThroughInstanceClassFields(i, h));
     }
 
-    private void iterateThroughInstanceClassFields(Instance i, FieldHandler h)
+    private void iterateThroughInstanceClassFields(InstanceContext i, FieldHandler h)
             throws CompilationFailedException {
         Class c = i.getC();
         for (Field f : c.getDeclaredFields()) {
@@ -40,7 +40,7 @@ public abstract class AbstractProcessor implements Processor {
     }
 
     protected interface FieldHandler {
-        void handle(Instance i, Field f) throws CompilationFailedException;
+        void handle(InstanceContext i, Field f) throws CompilationFailedException;
     }
 
     protected interface Handler<T> {

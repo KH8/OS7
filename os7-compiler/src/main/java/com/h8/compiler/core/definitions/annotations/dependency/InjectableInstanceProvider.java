@@ -3,7 +3,7 @@ package com.h8.compiler.core.definitions.annotations.dependency;
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.common.StringFormatter;
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.context.components.Instance;
+import com.h8.compiler.core.context.components.InstanceContext;
 import com.h8.compiler.core.definitions.annotations.components.handlers.FieldAnnotationHandler;
 import com.h8.compiler.exception.CompilationFailedException;
 import com.h8.os7.core.annotations.dependency.Inject;
@@ -14,10 +14,10 @@ class InjectableInstanceProvider implements FieldAnnotationHandler<Inject> {
     private static final Logger LOGGER = Logger.get(InjectableInstanceProvider.class);
 
     @Override
-    public void handle(CompilationContext context, Inject a, Instance i, Field f)
+    public void handle(CompilationContext context, Inject a, InstanceContext i, Field f)
             throws CompilationFailedException {
         String fiName = getFieldInstanceName(i, f);
-        Instance fi = context.getInstanceByClassOrName(f.getType(), fiName);
+        InstanceContext fi = context.getInstanceByClassOrName(f.getType(), fiName);
         if (fi != null) {
             injectInstancesWithAnnotatedNames(i, fi, a);
         } else {
@@ -26,20 +26,20 @@ class InjectableInstanceProvider implements FieldAnnotationHandler<Inject> {
         }
     }
 
-    private String getFieldInstanceName(Instance i, Field f) {
+    private String getFieldInstanceName(InstanceContext i, Field f) {
         return StringFormatter.format("{1}.{2}", i.getName(), f.getName());
     }
 
-    private void injectInstancesWithAnnotatedNames(Instance i, Instance fi, Inject a) {
+    private void injectInstancesWithAnnotatedNames(InstanceContext i, InstanceContext fi, Inject a) {
         for (String name : a.value()) {
             injectInstanceWithAnnotatedName(i, fi, name);
         }
     }
 
-    private void injectInstanceWithAnnotatedName(Instance i, Instance fi, String name) {
-        Instance injected = i.getFieldByName(name);
+    private void injectInstanceWithAnnotatedName(InstanceContext i, InstanceContext fi, String name) {
+        InstanceContext injected = i.getFieldByName(name);
         fi.getInjected().put(name, injected);
-        LOGGER.log("Instance '{1} [{2}]' provided as injectable to field '{3} [{4}]'",
+        LOGGER.log("InstanceContext '{1} [{2}]' provided as injectable to field '{3} [{4}]'",
                 injected.getName(), injected.getC().getSimpleName(),
                 fi.getName(), fi.getC().getSimpleName());
     }

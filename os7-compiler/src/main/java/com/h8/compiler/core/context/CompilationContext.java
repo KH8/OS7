@@ -1,7 +1,7 @@
 package com.h8.compiler.core.context;
 
 import com.h8.compiler.common.StringFormatter;
-import com.h8.compiler.core.context.components.Instance;
+import com.h8.compiler.core.context.components.InstanceContext;
 import com.h8.compiler.exception.CompilationFailedException;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +15,9 @@ public class CompilationContext {
     @Setter @Getter
     private List<Class> classes;
     @Getter
-    private Map<String, Instance> instances = new HashMap<>();
+    private Map<String, InstanceContext> instances = new HashMap<>();
 
-    public void putInstance(String name, Instance i)
+    public void putInstance(String name, InstanceContext i)
             throws CompilationFailedException {
         if (!instances.containsKey(name)) {
             instances.put(name, i);
@@ -27,14 +27,14 @@ public class CompilationContext {
         }
     }
 
-    public Instance getInstanceByClassOrName(Class c, String n)
+    public InstanceContext getInstanceByClassOrName(Class c, String n)
             throws CompilationFailedException {
         return n != null && !n.isEmpty() ? getInstanceByName(n) : getInstanceByClass(c);
     }
 
-    private Instance getInstanceByName(String name)
+    private InstanceContext getInstanceByName(String name)
             throws CompilationFailedException {
-        Instance result =  instances.get(name);
+        InstanceContext result =  instances.get(name);
         if (result == null) {
             String message = StringFormatter.format("Could not find candidate with name '{1}'", name);
             throw new CompilationFailedException(message);
@@ -42,14 +42,14 @@ public class CompilationContext {
         return result;
     }
 
-    private Instance getInstanceByClass(Class c)
+    private InstanceContext getInstanceByClass(Class c)
             throws CompilationFailedException {
         long count = getInstanceByClassStream(c).count();
         if (count > 1) {
             String message = StringFormatter.format("There is more than one candidate of type '{1}'", c);
             throw new CompilationFailedException(message);
         }
-        Optional<Instance> result = getInstanceByClassStream(c).findFirst();
+        Optional<InstanceContext> result = getInstanceByClassStream(c).findFirst();
         if (!result.isPresent()) {
             String message = StringFormatter.format("Could not find candidate of type '{1}'", c);
             throw new CompilationFailedException(message);
@@ -57,7 +57,7 @@ public class CompilationContext {
         return result.get();
     }
 
-    private Stream<Instance> getInstanceByClassStream(Class c) {
+    private Stream<InstanceContext> getInstanceByClassStream(Class c) {
         return instances.values().stream().filter(i -> i.getC().equals(c));
     }
 }

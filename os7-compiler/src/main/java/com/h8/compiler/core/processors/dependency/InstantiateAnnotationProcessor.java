@@ -1,7 +1,7 @@
 package com.h8.compiler.core.processors.dependency;
 
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.context.components.Instance;
+import com.h8.compiler.core.context.components.InstanceContext;
 import com.h8.compiler.exception.CompilationFailedException;
 import com.h8.os7.core.annotations.dependency.Instantiate;
 
@@ -28,7 +28,7 @@ public class InstantiateAnnotationProcessor extends AbstractDependencyAnnotation
     }
 
     @Override
-    protected void handleField(Instance i, Field f)
+    protected void handleField(InstanceContext i, Field f)
             throws CompilationFailedException {
         if (!i.isFieldsInstantiated()) {
             super.handleField(i, f);

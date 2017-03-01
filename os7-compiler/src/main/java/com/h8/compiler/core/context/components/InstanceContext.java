@@ -5,8 +5,8 @@ import lombok.Setter;
 
 import java.util.*;
 
-public class Instance {
-    public Instance(String name, Class c) {
+public class InstanceContext {
+    public InstanceContext(String name, Class c) {
         this.id = InstanceIdGenerator.getNextId();
         this.name = name;
         this.c = c;
@@ -23,20 +23,20 @@ public class Instance {
 
     @Getter
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private Map<String, Instance> fields = new HashMap<>();
+    private Map<String, InstanceContext> fields = new HashMap<>();
 
     @Getter
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private Map<String, Instance> injected = new HashMap<>();
+    private Map<String, InstanceContext> injected = new HashMap<>();
 
     @Setter @Getter
     private boolean fieldsInstantiated;
 
-    public Instance getFieldByName(String name) {
+    public InstanceContext getFieldByName(String name) {
         return fields.get(name);
     }
 
-    public Instance getInjectedByName(String name) {
+    public InstanceContext getInjectedByName(String name) {
         return injected.get(name);
     }
 }
