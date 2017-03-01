@@ -18,6 +18,7 @@ public class CompilationContextBuilder extends CompilationContext {
             throws CompilationFailedException {
         this.buildForDirectory(directory)
                 .buildClassList()
+                .buildClassContexts()
                 .processStructureAnnotations()
                 .processInstantiateAnnotations()
                 .processUseAnnotations()
@@ -34,6 +35,12 @@ public class CompilationContextBuilder extends CompilationContext {
     private CompilationContextBuilder buildClassList()
             throws CompilationFailedException {
         new ClassFileProcessor(this).process();
+        return this;
+    }
+
+    private CompilationContextBuilder buildClassContexts()
+            throws CompilationFailedException {
+        new ClassContextProcessor(this).process();
         return this;
     }
 

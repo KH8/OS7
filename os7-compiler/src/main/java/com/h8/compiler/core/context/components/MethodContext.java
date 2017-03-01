@@ -16,5 +16,6 @@ public class MethodContext {
     public MethodContext(Method m, ClassContext cCtx) {
         this.m = m;
         this.cCtx = cCtx;
+        this.aCtx = new MethodAnnotationContext(m);
     }
 }

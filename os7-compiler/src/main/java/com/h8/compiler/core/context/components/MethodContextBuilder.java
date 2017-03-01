@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 
 public class MethodContextBuilder {
     public static MethodContext build(Method m, ClassContext cCtx) {
-        return new MethodContext(m, cCtx);
+        MethodContext context = new MethodContext(m, cCtx);
+        cCtx.getMethods().put(m.getName(), context);
+        return context;
     }
 }

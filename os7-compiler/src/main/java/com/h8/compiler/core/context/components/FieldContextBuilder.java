@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 
 public class FieldContextBuilder {
     public static FieldContext build(Field f, ClassContext cCtx) {
-        return new FieldContext(f, cCtx);
+        FieldContext context = new FieldContext(f, cCtx);
+        cCtx.getFields().put(f.getName(), context);
+        return context;
     }
 }

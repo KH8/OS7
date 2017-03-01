@@ -1,6 +1,7 @@
 package com.h8.compiler.core.context;
 
 import com.h8.compiler.common.StringFormatter;
+import com.h8.compiler.core.context.components.ClassContext;
 import com.h8.compiler.core.context.components.InstanceContext;
 import com.h8.compiler.exception.CompilationFailedException;
 import lombok.Getter;
@@ -14,6 +15,8 @@ public class CompilationContext {
     private String directory;
     @Setter @Getter
     private List<Class> classes;
+    @Setter @Getter
+    private List<ClassContext> _classes = new ArrayList<>();
     @Getter
     private Map<String, InstanceContext> instances = new HashMap<>();
 

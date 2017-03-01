@@ -9,7 +9,7 @@ public class ClassContext {
     @Getter
     private Class c;
     @Getter
-    private ClassAnnotationContext annotations;
+    private ClassAnnotationContext aCtx;
     @Getter
     private Map<String, FieldContext> fields;
     @Getter
@@ -19,7 +19,7 @@ public class ClassContext {
 
     public ClassContext(Class c) {
         this.c = c;
-        this.annotations = new ClassAnnotationContext();
+        this.aCtx = new ClassAnnotationContext(c);
         this.fields = new HashMap<>();
         this.methods = new HashMap<>();
         this.instances = new HashMap<>();

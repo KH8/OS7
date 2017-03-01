@@ -16,5 +16,6 @@ public class FieldContext {
     public FieldContext(Field f, ClassContext cCtx) {
         this.f = f;
         this.cCtx = cCtx;
+        this.aCtx = new FieldAnnotationContext(f);
     }
 }
