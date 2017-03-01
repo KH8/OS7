@@ -13,7 +13,7 @@ public class ClassContextProcessor extends AbstractProcessor {
     public void process()
             throws CompilationFailedException {
         for (Class c : context.getClasses()) {
-            context.get_classes().add(ClassContextBuilder.build(c));
+            context.get_classes().add(ClassContextBuilder.build(context, c));
         }
     }
 }
