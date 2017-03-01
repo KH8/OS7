@@ -5,12 +5,11 @@ import com.h8.os7.core.annotations.dependency.Injectable;
 import com.h8.os7.core.annotations.dependency.Instantiate;
 import com.h8.os7.core.annotations.dependency.Use;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-@Setter @Getter
+@Getter
 public class FieldAnnotationContext {
     private Inject injectAnnotation;
     private Injectable injectableAnnotation;
