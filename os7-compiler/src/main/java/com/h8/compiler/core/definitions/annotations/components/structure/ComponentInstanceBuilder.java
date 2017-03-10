@@ -21,7 +21,7 @@ public class ComponentInstanceBuilder implements ClassAnnotationHandler {
             throws CompilationFailedException {
         String name = this.resolver.getName(cCtx);
         InstanceContext iCtx = new InstanceContext(name, cCtx);
-        context.putInstance(name, iCtx);
+        context.putInstance(iCtx);
         LOGGER.log("New instance for component '{1} [{2}]' created", name, cCtx.getC().getSimpleName());
     }
 }

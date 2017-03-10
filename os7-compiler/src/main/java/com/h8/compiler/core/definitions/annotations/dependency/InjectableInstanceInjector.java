@@ -5,34 +5,31 @@ import com.h8.compiler.common.StringFormatter;
 import com.h8.compiler.core.context.CompilationContext;
 import com.h8.compiler.core.context.components.FieldContext;
 import com.h8.compiler.core.context.components.InstanceContext;
-import com.h8.compiler.core.definitions.annotations.components.handlers.FieldAnnotationHandler;
+import com.h8.compiler.core.definitions.annotations.components.handlers.AnnotatedFieldInstanceHandler;
 import com.h8.compiler.exception.CompilationFailedException;
 import com.h8.os7.core.annotations.dependency.Injectable;
 
 import java.lang.reflect.Field;
 
-public class InjectableInstanceInjector implements FieldAnnotationHandler {
+class InjectableInstanceInjector extends AnnotatedFieldInstanceHandler {
     private static final Logger LOGGER = Logger.get(InjectableInstanceInjector.class);
 
     @Override
-    public void handle(CompilationContext context, FieldContext fCtx)
+    protected void handleFieldInstance(CompilationContext context, FieldContext fCtx, InstanceContext iCtx)
             throws CompilationFailedException {
-        for (InstanceContext i : fCtx.getCCtx().getInstances().values()) {
-            Field f = fCtx.getF();
-            Injectable a = fCtx.getACtx().getInjectableAnnotation();
-
-            InstanceContext injected = getInjectedInstance(i, a.value());
-            checkInstanceClassCompatibility(injected, f);
-            i.getFields().put(f.getName(), injected);
-            LOGGER.log("InstanceContext '{1} [{2}]' injected to field '{3}.{4} [{5}]'",
-                    injected.getName(), injected.getC().getSimpleName(),
-                    i.getName(), f.getName(), f.getType().getSimpleName());
-        }
+        Field f = fCtx.getF();
+        Injectable a = fCtx.getACtx().getInjectableAnnotation();
+        InstanceContext injected = getInjectedInstance(iCtx, a.value());
+        checkInstanceClassCompatibility(injected, f);
+        iCtx.getFields().put(f.getName(), injected);
+        LOGGER.log("InstanceContext '{1} [{2}]' injected to field '{3}.{4} [{5}]'",
+                injected.getName(), injected.getC().getSimpleName(),
+                iCtx.getName(), f.getName(), f.getType().getSimpleName());
     }
 
-    private InstanceContext getInjectedInstance(InstanceContext i, String name)
+    private InstanceContext getInjectedInstance(InstanceContext iCtx, String name)
             throws CompilationFailedException {
-        InstanceContext injected = i.getInjectedByName(name);
+        InstanceContext injected = iCtx.getInjectedByName(name);
         if (injected == null) {
             String message = StringFormatter.format("Component instance '{1}' could not be found", name);
             throw new CompilationFailedException(message);

@@ -8,14 +8,16 @@ import java.lang.reflect.Field;
 public class FieldContext {
     @Getter
     private Field f;
-    @Getter
+    @Setter @Getter
     private ClassContext cCtx;
+    @Getter
+    private ClassContext parentCtx;
     @Setter @Getter
     private FieldAnnotationContext aCtx;
 
-    public FieldContext(Field f, ClassContext cCtx) {
+    public FieldContext(Field f, ClassContext parentCtx) {
         this.f = f;
-        this.cCtx = cCtx;
+        this.parentCtx = parentCtx;
         this.aCtx = new FieldAnnotationContext(f);
     }
 }

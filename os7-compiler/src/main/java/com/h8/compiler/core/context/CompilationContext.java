@@ -13,7 +13,7 @@ public class CompilationContext {
     @Setter @Getter
     private String directory;
     @Getter
-    private List<ClassContext> classes = new ArrayList<>();
+    private Map<Class, ClassContext> classes = new HashMap<>();
     @Getter
     private ClassAnnotations classAnnotations = new ClassAnnotations();
     @Getter
@@ -23,12 +23,12 @@ public class CompilationContext {
     @Getter
     private Map<String, InstanceContext> instances = new HashMap<>();
 
-    public void putInstance(String name, InstanceContext i)
+    public void putInstance(InstanceContext i)
             throws CompilationFailedException {
-        if (!instances.containsKey(name)) {
-            instances.put(name, i);
+        if (!instances.containsKey(i.getName())) {
+            instances.put(i.getName(), i);
         } else {
-            String message = StringFormatter.format("Component instance name '{1}' already exists", name);
+            String message = StringFormatter.format("Component instance name '{1}' already exists", i.getName());
             throw new CompilationFailedException(message);
         }
     }

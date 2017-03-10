@@ -2,10 +2,10 @@ package com.h8.compiler.core.context;
 
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.core.processors.*;
+import com.h8.compiler.core.processors.components.structure.FieldInstanceBuilder;
 import com.h8.compiler.core.processors.components.structure.StructureAnnotationProcessor;
 import com.h8.compiler.core.processors.dependency.InjectAnnotationProcessor;
 import com.h8.compiler.core.processors.dependency.InjectableAnnotationProcessor;
-import com.h8.compiler.core.processors.dependency.InstantiateAnnotationProcessor;
 import com.h8.compiler.core.processors.dependency.UseAnnotationProcessor;
 import com.h8.compiler.exception.CompilationFailedException;
 
@@ -45,7 +45,7 @@ public class CompilationContextBuilder extends CompilationContext {
 
     private CompilationContextBuilder processInstantiateAnnotations()
             throws CompilationFailedException {
-        new InstantiateAnnotationProcessor(this).process();
+        new FieldInstanceBuilder(this).process();
         return this;
     }
 

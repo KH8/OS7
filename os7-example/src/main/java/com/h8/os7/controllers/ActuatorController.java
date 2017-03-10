@@ -2,7 +2,6 @@ package com.h8.os7.controllers;
 
 import com.h8.os7.core.annotations.components.structure.Controller;
 import com.h8.os7.core.annotations.dependency.Inject;
-import com.h8.os7.core.annotations.dependency.Instantiate;
 import com.h8.os7.core.annotations.dependency.Runner;
 import com.h8.os7.core.annotations.dependency.Use;
 import com.h8.os7.core.types.RunnerType;
@@ -18,7 +17,6 @@ public class ActuatorController {
     @Use
     private ExampleControlDeskInterface exampleControlDeskInterface;
 
-    @Instantiate
     @Inject("exampleActuatorInterface")
     private Actuator actuator;
 

@@ -5,30 +5,27 @@ import com.h8.compiler.common.StringFormatter;
 import com.h8.compiler.core.context.CompilationContext;
 import com.h8.compiler.core.context.components.FieldContext;
 import com.h8.compiler.core.context.components.InstanceContext;
-import com.h8.compiler.core.definitions.annotations.components.handlers.FieldAnnotationHandler;
+import com.h8.compiler.core.definitions.annotations.components.handlers.AnnotatedFieldInstanceHandler;
 import com.h8.compiler.exception.CompilationFailedException;
 import com.h8.os7.core.annotations.dependency.Inject;
 
 import java.lang.reflect.Field;
 
-class InjectableInstanceProvider implements FieldAnnotationHandler {
+class InjectableInstanceProvider extends AnnotatedFieldInstanceHandler {
     private static final Logger LOGGER = Logger.get(InjectableInstanceProvider.class);
 
     @Override
-    public void handle(CompilationContext context, FieldContext fCtx)
+    protected void handleFieldInstance(CompilationContext context, FieldContext fCtx, InstanceContext iCtx)
             throws CompilationFailedException {
-        for (InstanceContext i : fCtx.getCCtx().getInstances().values()) {
-            Field f = fCtx.getF();
-            Inject a = fCtx.getACtx().getInjectAnnotation();
-
-            String fiName = getFieldInstanceName(i, f);
-            InstanceContext fi = context.getInstanceByClassOrName(f.getType(), fiName);
-            if (fi != null) {
-                injectInstancesWithAnnotatedNames(i, fi, a);
-            } else {
-                String message = StringFormatter.format("Component instance '{1}' could not be found", fiName);
-                throw new CompilationFailedException(message);
-            }
+        Field f = fCtx.getF();
+        Inject a = fCtx.getACtx().getInjectAnnotation();
+        String fiName = getFieldInstanceName(iCtx, f);
+        InstanceContext fi = context.getInstanceByClassOrName(f.getType(), fiName);
+        if (fi != null) {
+            injectInstancesWithAnnotatedNames(iCtx, fi, a);
+        } else {
+            String message = StringFormatter.format("Component instance '{1}' could not be found", fiName);
+            throw new CompilationFailedException(message);
         }
     }
 

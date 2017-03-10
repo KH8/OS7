@@ -1,7 +1,6 @@
 package com.h8.compiler.core.context.components;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.*;
 
@@ -14,6 +13,7 @@ public class InstanceContext {
 
     public InstanceContext(String name, ClassContext cCtx) {
         this(name, cCtx.getC());
+        this.cCtx = cCtx;
         cCtx.getInstances().put(name, this);
     }
 
@@ -27,15 +27,15 @@ public class InstanceContext {
     private Class c;
 
     @Getter
+    private ClassContext cCtx;
+
+    @Getter
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private Map<String, InstanceContext> fields = new HashMap<>();
 
     @Getter
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private Map<String, InstanceContext> injected = new HashMap<>();
-
-    @Setter @Getter
-    private boolean fieldsInstantiated;
 
     public InstanceContext getFieldByName(String name) {
         return fields.get(name);

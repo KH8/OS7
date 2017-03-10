@@ -6,10 +6,10 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-public class FieldContextBuilder {
-    public static void build(CompilationContext context, Field f, ClassContext cCtx) {
-        FieldContext fCtx = new FieldContext(f, cCtx);
-        cCtx.getFields().put(f.getName(), fCtx);
+class FieldContextBuilder {
+    public static void build(CompilationContext context, Field f, ClassContext parentCtx) {
+        FieldContext fCtx = new FieldContext(f, parentCtx);
+        parentCtx.getFields().put(f.getName(), fCtx);
         propagateAnnotations(context, fCtx);
     }
 
@@ -17,7 +17,6 @@ public class FieldContextBuilder {
         FieldAnnotationContext aCtx = fCtx.getACtx();
         propagateAnnotation(context, fCtx, aCtx.getInjectableAnnotation());
         propagateAnnotation(context, fCtx, aCtx.getInjectAnnotation());
-        propagateAnnotation(context, fCtx, aCtx.getInstantiateAnnotation());
         propagateAnnotation(context, fCtx, aCtx.getUseAnnotation());
     }
 
