@@ -19,6 +19,7 @@ public class MethodContextBuilder {
 
     private static void propagateAnnotations(CompilationContext context, MethodContext mCtx) {
         MethodAnnotationContext aCtx = mCtx.getACtx();
+        propagateAnnotation(context, mCtx, aCtx.getRunnerAnnotation());
     }
 
     private static void propagateAnnotation(CompilationContext context, MethodContext mCtx, Annotation a) {
