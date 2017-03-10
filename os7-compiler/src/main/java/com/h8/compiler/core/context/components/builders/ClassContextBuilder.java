@@ -1,6 +1,9 @@
-package com.h8.compiler.core.context.components;
+package com.h8.compiler.core.context.components.builders;
 
 import com.h8.compiler.core.context.CompilationContext;
+import com.h8.compiler.core.context.components.ClassAnnotationContext;
+import com.h8.compiler.core.context.components.ClassAnnotations;
+import com.h8.compiler.core.context.components.ClassContext;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

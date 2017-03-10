@@ -1,6 +1,6 @@
 package com.h8.os7.components.input;
 
-import com.h8.os7.core.annotations.dependency.Runner;
+import com.h8.os7.core.annotations.execution.Runner;
 import com.h8.os7.components.common.Callback;
 import com.h8.os7.components.common.Periphery;
 import com.h8.os7.core.types.RunnerType;

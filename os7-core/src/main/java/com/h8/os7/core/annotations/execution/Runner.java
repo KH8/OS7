@@ -1,4 +1,4 @@
-package com.h8.os7.core.annotations.dependency;
+package com.h8.os7.core.annotations.execution;
 
 import com.h8.os7.core.types.RunnerType;
 

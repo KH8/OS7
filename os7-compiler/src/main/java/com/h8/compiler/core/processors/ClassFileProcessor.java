@@ -3,7 +3,7 @@ package com.h8.compiler.core.processors;
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.common.StringFormatter;
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.context.components.ClassContextBuilder;
+import com.h8.compiler.core.context.components.builders.ClassContextBuilder;
 import com.h8.compiler.exception.CompilationFailedException;
 
 import java.io.File;

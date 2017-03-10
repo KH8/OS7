@@ -1,6 +1,10 @@
-package com.h8.compiler.core.context.components;
+package com.h8.compiler.core.context.components.builders;
 
 import com.h8.compiler.core.context.CompilationContext;
+import com.h8.compiler.core.context.components.ClassContext;
+import com.h8.compiler.core.context.components.MethodAnnotationContext;
+import com.h8.compiler.core.context.components.MethodAnnotations;
+import com.h8.compiler.core.context.components.MethodContext;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

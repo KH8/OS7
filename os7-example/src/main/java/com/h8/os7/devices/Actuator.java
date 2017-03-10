@@ -1,7 +1,7 @@
 package com.h8.os7.devices;
 
 import com.h8.os7.core.annotations.dependency.Injectable;
-import com.h8.os7.core.annotations.dependency.Runner;
+import com.h8.os7.core.annotations.execution.Runner;
 import com.h8.os7.core.types.RunnerType;
 import lombok.Setter;
 
