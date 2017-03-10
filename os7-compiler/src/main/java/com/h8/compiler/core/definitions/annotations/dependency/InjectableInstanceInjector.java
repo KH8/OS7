@@ -3,6 +3,7 @@ package com.h8.compiler.core.definitions.annotations.dependency;
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.common.StringFormatter;
 import com.h8.compiler.core.context.CompilationContext;
+import com.h8.compiler.core.context.components.FieldContext;
 import com.h8.compiler.core.context.components.InstanceContext;
 import com.h8.compiler.core.definitions.annotations.components.handlers.FieldAnnotationHandler;
 import com.h8.compiler.exception.CompilationFailedException;
@@ -10,18 +11,23 @@ import com.h8.os7.core.annotations.dependency.Injectable;
 
 import java.lang.reflect.Field;
 
-public class InjectableInstanceInjector implements FieldAnnotationHandler<Injectable> {
+public class InjectableInstanceInjector implements FieldAnnotationHandler {
     private static final Logger LOGGER = Logger.get(InjectableInstanceInjector.class);
 
     @Override
-    public void handle(CompilationContext context, Injectable a, InstanceContext i, Field f)
+    public void handle(CompilationContext context, FieldContext fCtx)
             throws CompilationFailedException {
-        InstanceContext injected = getInjectedInstance(i, a.value());
-        checkInstanceClassCompatibility(injected, f);
-        i.getFields().put(f.getName(), injected);
-        LOGGER.log("InstanceContext '{1} [{2}]' injected to field '{3}.{4} [{5}]'",
-                injected.getName(), injected.getC().getSimpleName(),
-                i.getName(), f.getName(), f.getType().getSimpleName());
+        for (InstanceContext i : fCtx.getCCtx().getInstances().values()) {
+            Field f = fCtx.getF();
+            Injectable a = fCtx.getACtx().getInjectableAnnotation();
+
+            InstanceContext injected = getInjectedInstance(i, a.value());
+            checkInstanceClassCompatibility(injected, f);
+            i.getFields().put(f.getName(), injected);
+            LOGGER.log("InstanceContext '{1} [{2}]' injected to field '{3}.{4} [{5}]'",
+                    injected.getName(), injected.getC().getSimpleName(),
+                    i.getName(), f.getName(), f.getType().getSimpleName());
+        }
     }
 
     private InstanceContext getInjectedInstance(InstanceContext i, String name)

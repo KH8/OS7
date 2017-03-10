@@ -12,6 +12,11 @@ public class InstanceContext {
         this.c = c;
     }
 
+    public InstanceContext(String name, ClassContext cCtx) {
+        this(name, cCtx.getC());
+        cCtx.getInstances().put(name, this);
+    }
+
     @Getter
     private String id;
 
