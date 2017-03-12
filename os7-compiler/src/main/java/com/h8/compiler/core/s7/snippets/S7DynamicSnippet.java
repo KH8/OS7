@@ -7,7 +7,9 @@ import java.io.IOException;
 
 public enum S7DynamicSnippet {
     TYPE("s7_type.awl"),
-    DATA_BLOCK("s7_data_block.awl");
+    DATA_BLOCK("s7_data_block.awl"),
+    FUNCTION("s7_function.awl"),
+    NETWORK("s7_network.awl");
 
     private static final String RESOURCE_LOCATION = "snippets/dynamic/";
 

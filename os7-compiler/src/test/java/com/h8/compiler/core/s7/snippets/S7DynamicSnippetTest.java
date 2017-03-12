@@ -16,4 +16,16 @@ public class S7DynamicSnippetTest {
         S7DynamicSnippet dataBlock = S7DynamicSnippet.DATA_BLOCK;
         assertNotNull(dataBlock.getSnippet());
     }
+
+    @Test
+    public void functionBlockSnippetFileCanBeRead() {
+        S7DynamicSnippet function = S7DynamicSnippet.FUNCTION;
+        assertNotNull(function.getSnippet());
+    }
+
+    @Test
+    public void networkBlockSnippetFileCanBeRead() {
+        S7DynamicSnippet network = S7DynamicSnippet.NETWORK;
+        assertNotNull(network.getSnippet());
+    }
 }
