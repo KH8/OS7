@@ -1,7 +1,6 @@
 TYPE "$NAME"
 VERSION : $VERSION
     STRUCT
-        $PARAMETER : $TYPE; //$COMMENT
-        $@
+        @PARAMETERS[$NAME : $TYPE; //$COMMENT]
     END_STRUCT;
 END_TYPE
