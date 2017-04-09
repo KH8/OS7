@@ -1,4 +1,4 @@
-package com.h8.compiler.core.s7.generator;
+package com.h8.compiler.core.s7.snippets;
 
 import lombok.Getter;
 

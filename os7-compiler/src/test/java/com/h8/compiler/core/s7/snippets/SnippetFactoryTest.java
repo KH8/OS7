@@ -1,6 +1,8 @@
-package com.h8.compiler.core.s7.generator;
+package com.h8.compiler.core.s7.snippets;
 
 import com.h8.compiler.core.s7.snippets.S7DynamicSnippet;
+import com.h8.compiler.core.s7.snippets.SnippetFactory;
+import com.h8.compiler.core.s7.snippets.SnippetParameter;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,6 +1,4 @@
-package com.h8.compiler.core.s7.generator;
-
-import com.h8.compiler.core.s7.snippets.S7DynamicSnippet;
+package com.h8.compiler.core.s7.snippets;
 
 public class SnippetFactory {
     public String create(S7DynamicSnippet snippet, SnippetParameter params) {
