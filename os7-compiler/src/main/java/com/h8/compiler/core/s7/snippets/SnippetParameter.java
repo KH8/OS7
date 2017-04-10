@@ -28,4 +28,14 @@ public class SnippetParameter extends HashMap<String, SnippetParameter> {
         sp.value = value;
         return sp;
     }
+
+    public SnippetParameter with(String name, String value) {
+        SnippetParameter sp = SnippetParameter.singleParameters(value);
+        return this.with(name, sp);
+    }
+
+    public SnippetParameter with(String name, SnippetParameter sp) {
+        this.put(name, sp);
+        return sp;
+    }
 }

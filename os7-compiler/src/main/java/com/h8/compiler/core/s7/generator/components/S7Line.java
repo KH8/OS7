@@ -6,16 +6,16 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class S7Type implements S7CodeComponent {
-    private String name;
-    private String version;
-    private S7CodeComponents<S7Parameter> parameters;
+public class S7Line implements S7CodeComponent {
+    private S7Operation operation;
+    private String parameter;
+    private String comment;
 
     @Override
     public SnippetParameter toSnippetParameter() {
         return SnippetParameter.nestedParameters()
-                .with("NAME", name)
-                .with("VERSION", version)
-                .with("PARAMETERS", parameters.toSnippetParameter());
+                .with("OPERATION", operation.toSnippetParameter())
+                .with("PARAMETER", parameter)
+                .with("COMMENT", comment);
     }
 }
