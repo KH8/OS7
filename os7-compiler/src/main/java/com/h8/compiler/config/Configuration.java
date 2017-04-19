@@ -28,10 +28,11 @@ public class Configuration {
         this.dbComponents = properties.getProperty(ParameterName.DB_COMPONENTS_NUMBER.getName());
     }
 
-    public static Configuration getConfiguration()
+    public static Configuration getConfiguration(String fileName)
             throws CompilationFailedException {
         if (instance == null) {
-            instance = new Configuration(DEFAULT_PROPERTY_FILE_NAME);
+            fileName = fileName != null ? fileName : DEFAULT_PROPERTY_FILE_NAME;
+            instance = new Configuration(fileName);
         }
         return instance;
     }
