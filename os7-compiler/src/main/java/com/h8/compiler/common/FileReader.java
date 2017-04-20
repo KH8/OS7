@@ -7,11 +7,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class FileReader {
-    public String readFile(String fileName)
-            throws IOException {
+    public String getResourceFileName(String fileName) {
         ClassLoader classLoader = getClass().getClassLoader();
         URL url = classLoader.getResource(fileName);
-        return url != null ? readFile(url.getFile(), Charset.defaultCharset()) : null;
+        return url != null ? url.getFile() : null;
+    }
+
+    public String readFile(String fileName)
+            throws IOException {
+        String resourceFileName = getResourceFileName(fileName);
+        return resourceFileName != null ? readFile(resourceFileName, Charset.defaultCharset()) : null;
     }
 
     private String readFile(String path, Charset encoding)

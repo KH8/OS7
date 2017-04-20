@@ -1,7 +1,8 @@
 package com.h8.compiler.core.context;
 
 import com.h8.compiler.common.Logger;
-import com.h8.compiler.core.processors.*;
+import com.h8.compiler.core.context.config.CompilationConfiguration;
+import com.h8.compiler.core.processors.ClassFileProcessor;
 import com.h8.compiler.core.processors.components.structure.FieldInstanceBuilder;
 import com.h8.compiler.core.processors.components.structure.StructureAnnotationProcessor;
 import com.h8.compiler.core.processors.dependency.InjectAnnotationProcessor;
@@ -16,13 +17,20 @@ public class CompilationContextBuilder extends CompilationContext {
 
     public void build(String directory)
             throws CompilationFailedException {
-        this.buildForDirectory(directory)
+        this.buildConfiguration()
+                .buildForDirectory(directory)
                 .buildClassContexts()
                 .processStructureAnnotations()
                 .processInstantiateAnnotations()
                 .processUseAnnotations()
                 .processInjectAnnotations()
                 .processInjectableAnnotations();
+    }
+
+    private CompilationContextBuilder buildConfiguration()
+            throws CompilationFailedException {
+        this.setConfiguration(CompilationConfiguration.getConfiguration(null));
+        return this;
     }
 
     private CompilationContextBuilder buildForDirectory(String directory) {

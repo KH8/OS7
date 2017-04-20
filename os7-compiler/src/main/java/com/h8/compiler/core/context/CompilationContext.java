@@ -2,14 +2,20 @@ package com.h8.compiler.core.context;
 
 import com.h8.compiler.common.StringFormatter;
 import com.h8.compiler.core.context.components.*;
+import com.h8.compiler.core.context.config.CompilationConfiguration;
 import com.h8.compiler.exception.CompilationFailedException;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class CompilationContext {
+    @Setter
+    @Getter
+    private CompilationConfiguration configuration;
     @Setter @Getter
     private String directory;
     @Getter
