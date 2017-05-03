@@ -34,7 +34,12 @@ public class CompilationConfiguration {
         return properties;
     }
 
-    public String getProperty(CompilationProperties property) {
+    public String getStringProperty(CompilationProperties property) {
         return this.properties.getProperty(property.getName());
+    }
+
+    public Integer getIntegerProperty(CompilationProperties property) {
+        String p = getStringProperty(property);
+        return Integer.parseInt(p);
     }
 }
