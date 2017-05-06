@@ -1,27 +1,14 @@
 package com.h8.compiler.endpoints;
 
-import com.h8.compiler.common.Logger;
-import com.h8.compiler.core.context.CompilationContextBuilder;
-import com.h8.compiler.exception.CompilationFailedException;
+import com.h8.compiler.core.services.CompilationService;
 
 public class Main {
-    private static Logger LOGGER = Logger.get(Main.class);
-
     public static void main(String[] args) {
         String directory = getWorkingDirectory(args);
-        buildContext(directory);
+        new CompilationService().compile(directory);
     }
 
     private static String getWorkingDirectory(String[] args) {
         return args != null && args.length > 0 ? args[0] : System.getProperty("user.dir");
-    }
-
-    private static void buildContext(String directory) {
-        try {
-            new CompilationContextBuilder().build(directory);
-        } catch (CompilationFailedException e) {
-            LOGGER.log("Compilation context build failed");
-            e.printStackTrace();
-        }
     }
 }
