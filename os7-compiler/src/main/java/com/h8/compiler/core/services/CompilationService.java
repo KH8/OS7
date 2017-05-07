@@ -30,6 +30,11 @@ public class CompilationService {
     }
 
     private void buildCode() {
-        new CodeGenerator().generate(ctx);
+        try {
+            new CodeGenerator().generate(ctx);
+        } catch (CompilationFailedException e) {
+            LOGGER.log("S7 code generation failed");
+            e.printStackTrace();
+        }
     }
 }

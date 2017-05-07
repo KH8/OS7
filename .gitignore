@@ -2,6 +2,7 @@
 *.iml
 
 */target
+*/out
 
 *.tmp
 os7-plc/*

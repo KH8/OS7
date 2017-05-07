@@ -7,6 +7,7 @@ import com.h8.compiler.exception.CompilationFailedException;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -18,6 +19,9 @@ public class CompilationContext {
     private CompilationConfiguration configuration;
     @Setter @Getter
     private String directory;
+    @Setter
+    @Getter
+    private File output;
     @Getter
     private Map<Class, ClassContext> classes = new HashMap<>();
     @Getter

@@ -10,8 +10,12 @@ import com.h8.compiler.core.processors.dependency.InjectableAnnotationProcessor;
 import com.h8.compiler.core.processors.dependency.UseAnnotationProcessor;
 import com.h8.compiler.exception.CompilationFailedException;
 
+import java.io.File;
+
 public class CompilationContextBuilder extends CompilationContext {
     private static final Logger LOGGER = Logger.get(CompilationContextBuilder.class);
+
+    private static final String OUTPUT_FILE_NAME = "/out/output.awl";
 
     public CompilationContextBuilder() {}
 
@@ -19,6 +23,7 @@ public class CompilationContextBuilder extends CompilationContext {
             throws CompilationFailedException {
         this.buildConfiguration()
                 .buildForDirectory(directory)
+                .buildOutputFile()
                 .buildClassContexts()
                 .processStructureAnnotations()
                 .processInstantiateAnnotations()
@@ -36,6 +41,16 @@ public class CompilationContextBuilder extends CompilationContext {
     private CompilationContextBuilder buildForDirectory(String directory) {
         this.setDirectory(directory);
         LOGGER.log("Working directory: {1}", directory);
+        return this;
+    }
+
+    private CompilationContextBuilder buildOutputFile() {
+        File output = new File(this.getDirectory() + OUTPUT_FILE_NAME);
+        if (output.getParentFile().mkdirs()) {
+            LOGGER.log("Directory created: {1}", output.getParentFile().getAbsolutePath());
+        }
+        this.setOutput(output);
+        LOGGER.log("Output file created: {1}", output.getAbsolutePath());
         return this;
     }
 
