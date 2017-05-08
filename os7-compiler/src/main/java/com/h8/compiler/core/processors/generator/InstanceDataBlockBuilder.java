@@ -1,37 +1,26 @@
 package com.h8.compiler.core.processors.generator;
 
 import com.h8.compiler.core.context.CompilationContext;
-import com.h8.compiler.core.processors.AbstractProcessor;
+import com.h8.compiler.core.context.config.CompilationProperties;
+import com.h8.compiler.core.s7.generator.components.S7CodeComponents;
+import com.h8.compiler.core.s7.generator.components.S7DataBlock;
 import com.h8.compiler.core.s7.snippets.S7DynamicSnippet;
 import com.h8.compiler.core.s7.snippets.SnippetFactory;
-import com.h8.compiler.core.s7.snippets.SnippetParameter;
-import com.h8.compiler.exception.CompilationFailedException;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-
-public class InstanceDataBlockBuilder extends AbstractProcessor {
+public class InstanceDataBlockBuilder extends OutputFileWriter {
     public InstanceDataBlockBuilder(CompilationContext context) {
         super(context);
     }
 
     @Override
-    public void process()
-            throws CompilationFailedException {
-        SnippetParameter sp = SnippetParameter.nestedParameters();
-        sp.put("NAME", SnippetParameter.singleParameters("TEST_NAME"));
-        sp.put("VERSION", SnippetParameter.singleParameters("TEST_VERSION"));
+    protected String getContent() {
+        String name = "INSTANCES";
+        String title = "DB containing all component instances";
+        String version = this.context.getConfiguration().getStringProperty(CompilationProperties.VERSION);
 
-        String result = new SnippetFactory().create(S7DynamicSnippet.DATA_BLOCK, sp);
+        S7DataBlock sb = new S7DataBlock(
+                name, title, version, false, new S7CodeComponents<>(), new S7CodeComponents<>());
 
-        BufferedWriter output;
-        try {
-            output = new BufferedWriter(new FileWriter(context.getOutput()));
-            output.write(result);
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return new SnippetFactory().create(S7DynamicSnippet.DATA_BLOCK, sb.toSnippetParameter());
     }
 }

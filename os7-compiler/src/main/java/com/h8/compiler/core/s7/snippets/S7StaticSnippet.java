@@ -5,7 +5,7 @@ import lombok.Getter;
 
 import java.io.IOException;
 
-public enum S7StaticSnippet {
+public enum S7StaticSnippet implements S7Snippet {
     POINTER("s7_type_pointer.awl");
 
     private static final String RESOURCE_LOCATION = "snippets/static/";

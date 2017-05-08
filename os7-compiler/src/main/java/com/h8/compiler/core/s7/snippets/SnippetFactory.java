@@ -1,7 +1,7 @@
 package com.h8.compiler.core.s7.snippets;
 
 public class SnippetFactory {
-    public String create(S7DynamicSnippet snippet, SnippetParameter params) {
+    public String create(S7Snippet snippet, SnippetParameter params) {
         String s = snippet.getSnippet();
         return replaceParameters(s, params);
     }

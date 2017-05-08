@@ -5,7 +5,7 @@ import lombok.Getter;
 
 import java.io.IOException;
 
-public enum S7DynamicSnippet {
+public enum S7DynamicSnippet implements S7Snippet {
     TYPE("s7_type.awl"),
     DATA_BLOCK("s7_data_block.awl"),
     FUNCTION("s7_function.awl"),

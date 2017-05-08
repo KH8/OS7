@@ -36,6 +36,6 @@ public class SnippetParameter extends HashMap<String, SnippetParameter> {
 
     public SnippetParameter with(String name, SnippetParameter sp) {
         this.put(name, sp);
-        return sp;
+        return this;
     }
 }

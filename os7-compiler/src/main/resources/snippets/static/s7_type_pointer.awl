@@ -1,7 +1,7 @@
 TYPE "POINTER"
-VERSION : $COMPILER_VERSION
+VERSION : $VERSION
     STRUCT
-        DB_NO : INT;      //Database number
+        DB_NO : INT;     //Database number
         START : DINT;    //Database starting byte
         LENGTH : INT;    //Data length in bytes
     END_STRUCT;
