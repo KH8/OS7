@@ -31,7 +31,7 @@ abstract class OutputFileWriter extends AbstractProcessor {
 
     protected abstract String getContent();
 
-    private String getContentSeparator() {
+    protected String getContentSeparator() {
         return LINE_SEPARATOR + LINE_SEPARATOR;
     }
 }

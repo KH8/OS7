@@ -1,6 +1,7 @@
 package com.h8.compiler.core.s7.generator;
 
 import com.h8.compiler.core.context.CompilationContext;
+import com.h8.compiler.core.processors.generator.ClassTypesBuilder;
 import com.h8.compiler.core.processors.generator.FileEraser;
 import com.h8.compiler.core.processors.generator.InstanceDataBlockBuilder;
 import com.h8.compiler.core.processors.generator.StaticTypesBuilder;
@@ -14,6 +15,7 @@ public class CodeGenerator {
         this.ctx = context;
         eraseFile();
         writeStaticTypes();
+        writeClassTypes();
         generateInstanceDataBlock();
     }
 
@@ -25,6 +27,11 @@ public class CodeGenerator {
     private void writeStaticTypes()
             throws CompilationFailedException {
         new StaticTypesBuilder(ctx).process();
+    }
+
+    private void writeClassTypes()
+            throws CompilationFailedException {
+        new ClassTypesBuilder(ctx).process();
     }
 
     private void generateInstanceDataBlock()
