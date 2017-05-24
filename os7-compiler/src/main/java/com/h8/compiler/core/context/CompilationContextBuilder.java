@@ -3,6 +3,7 @@ package com.h8.compiler.core.context;
 import com.h8.compiler.common.Logger;
 import com.h8.compiler.core.context.config.CompilationConfiguration;
 import com.h8.compiler.core.processors.ClassFileProcessor;
+import com.h8.compiler.core.processors.components.structure.FieldClassFinder;
 import com.h8.compiler.core.processors.components.structure.FieldInstanceBuilder;
 import com.h8.compiler.core.processors.components.structure.StructureAnnotationProcessor;
 import com.h8.compiler.core.processors.dependency.InjectAnnotationProcessor;
@@ -25,6 +26,7 @@ public class CompilationContextBuilder extends CompilationContext {
                 .buildForDirectory(directory)
                 .buildOutputFile()
                 .buildClassContexts()
+                .buildFieldClassContexts()
                 .processStructureAnnotations()
                 .processInstantiateAnnotations()
                 .processUseAnnotations()
@@ -57,6 +59,12 @@ public class CompilationContextBuilder extends CompilationContext {
     private CompilationContextBuilder buildClassContexts()
             throws CompilationFailedException {
         new ClassFileProcessor(this).process();
+        return this;
+    }
+
+    private CompilationContextBuilder buildFieldClassContexts()
+            throws CompilationFailedException {
+        new FieldClassFinder(this).process();
         return this;
     }
 
