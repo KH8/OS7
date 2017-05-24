@@ -2,7 +2,6 @@ package com.h8.compiler.core.processors.generator;
 
 import com.h8.compiler.core.context.CompilationContext;
 import com.h8.compiler.core.context.components.ClassContext;
-import com.h8.compiler.core.context.config.CompilationProperties;
 import com.h8.compiler.core.s7.generator.components.S7CodeComponents;
 import com.h8.compiler.core.s7.generator.components.S7Type;
 import com.h8.compiler.core.s7.snippets.S7DynamicSnippet;
@@ -17,13 +16,21 @@ public class ClassTypesBuilder extends OutputFileWriter {
     protected String getContent() {
         String result = "";
         for (ClassContext c : context.getClasses().values()) {
-            String className = c.getC().getSimpleName();
-            String name = className.replaceAll("(.)(\\p{Upper})", "$1_$2").toUpperCase();
-            String version = this.context.getConfiguration().getStringProperty(CompilationProperties.VERSION);
-            S7Type sb = new S7Type(name, version, new S7CodeComponents<>());
-            result += new SnippetFactory().create(S7DynamicSnippet.TYPE, sb.toSnippetParameter());
+            result += getTypeFromClassContext(c);
             result += getContentSeparator();
         }
         return result;
+    }
+
+    private String getTypeFromClassContext(ClassContext c) {
+        String name = getTypeName(c);
+        String version = getVersion();
+        S7Type sb = new S7Type(name, version, new S7CodeComponents<>());
+        return new SnippetFactory().create(S7DynamicSnippet.TYPE, sb.toSnippetParameter());
+    }
+
+    private String getTypeName(ClassContext c) {
+        String className = c.getC().getSimpleName();
+        return className.replaceAll("(.)(\\p{Upper})", "$1_$2").toUpperCase();
     }
 }

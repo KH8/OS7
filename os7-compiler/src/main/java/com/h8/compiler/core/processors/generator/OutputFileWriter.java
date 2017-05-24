@@ -1,6 +1,7 @@
 package com.h8.compiler.core.processors.generator;
 
 import com.h8.compiler.core.context.CompilationContext;
+import com.h8.compiler.core.context.config.CompilationProperties;
 import com.h8.compiler.core.processors.AbstractProcessor;
 import com.h8.compiler.exception.CompilationFailedException;
 
@@ -33,5 +34,9 @@ abstract class OutputFileWriter extends AbstractProcessor {
 
     protected String getContentSeparator() {
         return LINE_SEPARATOR + LINE_SEPARATOR;
+    }
+
+    protected String getVersion() {
+        return this.context.getConfiguration().getStringProperty(CompilationProperties.VERSION);
     }
 }
