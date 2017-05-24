@@ -11,6 +11,7 @@ import java.util.Properties;
 public class CompilationConfiguration {
     private static final String DEFAULT_PROPERTY_FILE_NAME = "s7generator.properties";
 
+    private String fileName;
     private Properties properties;
 
     public static CompilationConfiguration getConfiguration(String fileName)
@@ -18,7 +19,9 @@ public class CompilationConfiguration {
         fileName = fileName != null ?
                 fileName : new FileReader().getResourceFileName(DEFAULT_PROPERTY_FILE_NAME);
         CompilationConfiguration config = new CompilationConfiguration();
+        config.fileName = fileName;
         config.properties = getPropertiesFromFile(fileName);
+        logProperties(config);
         return config;
     }
 
@@ -32,6 +35,14 @@ public class CompilationConfiguration {
             throw new CompilationFailedException(message, e);
         }
         return properties;
+    }
+
+    private static void logProperties(CompilationConfiguration config) {
+        System.out.println(StringFormatter.format("Properties loaded from file: <g{1}/>", config.fileName));
+        for (Object key : config.properties.keySet()) {
+            System.out.println(StringFormatter.format("<p{1}/> : <g{2}/>", key, config.properties.get(key)));
+        }
+        System.out.println(System.getProperty("line.separator"));
     }
 
     public String getStringProperty(CompilationProperties property) {
