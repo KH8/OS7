@@ -11,12 +11,11 @@ import com.h8.compiler.exception.CompilationFailedException;
 
 public class FieldInstanceBuilder extends AbstractProcessor {
     private static final Logger LOGGER = Logger.get(FieldInstanceBuilder.class);
+    private boolean newInstancesCreated = true;
 
     public FieldInstanceBuilder(CompilationContext context) {
         super(context);
     }
-
-    private boolean newInstancesCreated = true;
 
     @Override
     public void process()
@@ -77,7 +76,7 @@ public class FieldInstanceBuilder extends AbstractProcessor {
                     new InstanceContext(name, fcCtx) : new InstanceContext(name, c);
             context.putInstance(fiCtx);
             addFieldInstanceToParent(iCtx, fiCtx);
-            LOGGER.log("New instance for field '{1} [{2}] created'", name, fiCtx.getC().getSimpleName());
+            LOGGER.log("New instance for field '{1} [<g{2}/>] created'", name, fiCtx.getC().getSimpleName());
             newInstancesCreated = true;
         }
     }

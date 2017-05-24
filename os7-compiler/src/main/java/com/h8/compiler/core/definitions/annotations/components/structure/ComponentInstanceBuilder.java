@@ -22,6 +22,6 @@ public class ComponentInstanceBuilder implements ClassAnnotationHandler {
         String name = this.resolver.getName(cCtx);
         InstanceContext iCtx = new InstanceContext(name, cCtx);
         context.putInstance(iCtx);
-        LOGGER.log("New instance for component '{1} [{2}]' created", name, cCtx.getC().getSimpleName());
+        LOGGER.log("New instance for component '{1} [<g{2}/>]' created", name, cCtx.getC().getSimpleName());
     }
 }

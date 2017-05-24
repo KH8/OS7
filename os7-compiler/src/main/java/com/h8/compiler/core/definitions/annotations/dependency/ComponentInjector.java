@@ -20,7 +20,7 @@ class ComponentInjector extends AnnotatedFieldInstanceHandler {
         Use a = fCtx.getACtx().getUseAnnotation();
         InstanceContext used = context.getInstanceByClassOrName(f.getType(), a.value());
         iCtx.getFields().put(f.getName(), used);
-        LOGGER.log("Component '{1} [{2}]' injected to field '{3}.{4} [{5}]'",
+        LOGGER.log("Component '{1} [<g{2}/>]' injected to field '{3}.{4} [<g{5}/>]'",
                 used.getName(), used.getC().getSimpleName(),
                 iCtx.getName(), f.getName(), f.getType().getSimpleName());
     }

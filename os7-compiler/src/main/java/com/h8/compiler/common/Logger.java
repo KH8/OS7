@@ -5,13 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Logger {
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private Class c;
 
     private Logger(Class c) {
         this.c = c;
     }
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    public static Logger get(Class c) {
+        return new Logger(c);
+    }
 
     public void log(String message, Object... args) {
         String formattedMessage = StringFormatter.format(message, args);
@@ -20,11 +23,7 @@ public class Logger {
 
     public void log(String message) {
         Date date = new Date();
-        System.out.println(StringFormatter.format("{1} [{2}] : {3}",
+        System.out.println(StringFormatter.format("{1} <p[{2}]/> : {3}",
                 DATE_FORMAT.format(date), c.getSimpleName(), message));
-    }
-
-    public static Logger get(Class c) {
-        return new Logger(c);
     }
 }

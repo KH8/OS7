@@ -42,7 +42,7 @@ class InjectableInstanceProvider extends AnnotatedFieldInstanceHandler {
     private void injectInstanceWithAnnotatedName(InstanceContext i, InstanceContext fi, String name) {
         InstanceContext injected = i.getFieldByName(name);
         fi.getInjected().put(name, injected);
-        LOGGER.log("InstanceContext '{1} [{2}]' provided as injectable to field '{3} [{4}]'",
+        LOGGER.log("InstanceContext '{1} [<g{2}/>]' provided as injectable to field '{3} [<g{4}/>]'",
                 injected.getName(), injected.getC().getSimpleName(),
                 fi.getName(), fi.getC().getSimpleName());
     }

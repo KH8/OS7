@@ -69,6 +69,6 @@ public class FieldClassFinder extends AbstractProcessor {
 
     private void registerClassContext(Class c) {
         ClassContextBuilder.build(context, c);
-        LOGGER.log("New class context for '{1}' created'", c.getSimpleName());
+        LOGGER.log("New class context for '<g{1}/>' created", c.getSimpleName());
     }
 }
