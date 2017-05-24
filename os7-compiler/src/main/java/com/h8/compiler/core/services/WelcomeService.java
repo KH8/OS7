@@ -1,13 +1,15 @@
 package com.h8.compiler.core.services;
 
-import com.h8.compiler.common.StringFormatter;
+import com.h8.compiler.common.Logger;
 
 public class WelcomeService {
+    private static final Logger LOGGER = Logger.get(WelcomeService.class);
+
     public void logWelcomeMessage() {
         String version = "1.0-SNAPSHOT";
-        System.out.println(System.getProperty("line.separator"));
-        System.out.println(StringFormatter.format("Welcome to <gOS7 Compiler/> project."));
-        System.out.println(StringFormatter.format("version: <g{1}/>", version));
-        System.out.println(System.getProperty("line.separator"));
+        LOGGER.printLineSeparator();
+        LOGGER.print("Welcome to <gOS7 Compiler/> project.");
+        LOGGER.print("version: <g{1}/>", version);
+        LOGGER.printLineSeparator();
     }
 }

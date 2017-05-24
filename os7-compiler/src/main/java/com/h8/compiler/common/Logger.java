@@ -23,7 +23,14 @@ public class Logger {
 
     public void log(String message) {
         Date date = new Date();
-        System.out.println(StringFormatter.format("{1} <p[{2}]/> : {3}",
-                DATE_FORMAT.format(date), c.getSimpleName(), message));
+        print("{1} <p[{2}]/> : {3}", DATE_FORMAT.format(date), c.getSimpleName(), message);
+    }
+
+    public void printLineSeparator() {
+        print(System.getProperty("line.separator"));
+    }
+
+    public void print(String message, Object... args) {
+        System.out.println(StringFormatter.format(message, args));
     }
 }

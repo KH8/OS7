@@ -1,6 +1,7 @@
 package com.h8.compiler.core.context.config;
 
 import com.h8.compiler.common.FileReader;
+import com.h8.compiler.common.Logger;
 import com.h8.compiler.common.StringFormatter;
 import com.h8.compiler.exception.CompilationFailedException;
 
@@ -9,6 +10,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class CompilationConfiguration {
+    private static final Logger LOGGER = Logger.get(CompilationConfiguration.class);
+
     private static final String DEFAULT_PROPERTY_FILE_NAME = "s7generator.properties";
 
     private String fileName;
@@ -38,11 +41,12 @@ public class CompilationConfiguration {
     }
 
     private static void logProperties(CompilationConfiguration config) {
-        System.out.println(StringFormatter.format("Properties loaded from file: <g{1}/>", config.fileName));
-        for (Object key : config.properties.keySet()) {
-            System.out.println(StringFormatter.format("<p{1}/> : <g{2}/>", key, config.properties.get(key)));
+        LOGGER.log("Properties loaded from file: <g{1}/>", config.fileName);
+        Object[] sortedKeys = config.properties.keySet().stream().sorted().toArray();
+        for (Object key : sortedKeys) {
+            LOGGER.log("<p{1}/> : <g{2}/>", key, config.properties.get(key));
         }
-        System.out.println(System.getProperty("line.separator"));
+        LOGGER.printLineSeparator();
     }
 
     public String getStringProperty(CompilationProperties property) {
