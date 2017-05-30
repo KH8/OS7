@@ -54,6 +54,6 @@ public class ClassTypesBuilder extends OutputFileWriter {
     }
 
     private String getName(String name) {
-        return name.replaceAll("(.)(\\p{Upper})", "$1_$2").toUpperCase();
+        return name.replaceAll("(\\p{Lower})(\\p{Upper})", "$1_$2").toUpperCase();
     }
 }
