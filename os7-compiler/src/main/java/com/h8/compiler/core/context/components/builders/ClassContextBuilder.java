@@ -9,6 +9,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ClassContextBuilder {
     public static void build(CompilationContext context, Class c) {
@@ -37,9 +40,19 @@ public class ClassContextBuilder {
     }
 
     private static void buildFieldContexts(CompilationContext context, ClassContext cCtx) {
-        for (Field f : cCtx.getC().getDeclaredFields()) {
+        List<Field> fields = getInheritedFields(cCtx.getC());
+        for (Field f : fields) {
             FieldContextBuilder.build(context, f, cCtx);
         }
+    }
+
+    private static List<Field> getInheritedFields(Class<?> type) {
+        List<Field> fields = new ArrayList<>();
+        for (Class<?> c = type; c != null; c = c.getSuperclass()) {
+            fields.addAll(Arrays.asList(c.getDeclaredFields()));
+        }
+        Collections.reverse(fields);
+        return fields;
     }
 
     private static void buildMethodContexts(CompilationContext context, ClassContext cCtx) {
