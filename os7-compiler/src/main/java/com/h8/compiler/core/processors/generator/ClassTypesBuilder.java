@@ -9,6 +9,10 @@ import com.h8.compiler.core.s7.generator.components.S7Type;
 import com.h8.compiler.core.s7.snippets.S7DynamicSnippet;
 import com.h8.compiler.core.s7.snippets.SnippetFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class ClassTypesBuilder extends OutputFileWriter {
     public ClassTypesBuilder(CompilationContext context) {
         super(context);
@@ -39,7 +43,9 @@ public class ClassTypesBuilder extends OutputFileWriter {
 
     private S7CodeComponents<S7Parameter> getTypeParameters(ClassContext c) {
         S7CodeComponents<S7Parameter> parameters = new S7CodeComponents<>();
-        for (FieldContext fc : c.getFields().values()) {
+        List<FieldContext> fields = new ArrayList<>(c.getFields().values());
+        Collections.reverse(fields);
+        for (FieldContext fc : fields) {
             String name = getName(fc.getF().getName());
             S7Type type = new S7Type("INT", "", new S7CodeComponents<>());
             S7Parameter p = new S7Parameter(name, type,

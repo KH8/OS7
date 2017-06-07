@@ -10,7 +10,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class ClassContextBuilder {
@@ -48,10 +47,11 @@ public class ClassContextBuilder {
 
     private static List<Field> getInheritedFields(Class<?> type) {
         List<Field> fields = new ArrayList<>();
-        for (Class<?> c = type; c != null; c = c.getSuperclass()) {
-            fields.addAll(Arrays.asList(c.getDeclaredFields()));
+        Class sc = type.getSuperclass();
+        if (sc != null) {
+            fields.addAll(getInheritedFields(sc));
         }
-        Collections.reverse(fields);
+        fields.addAll(Arrays.asList(type.getDeclaredFields()));
         return fields;
     }
 
