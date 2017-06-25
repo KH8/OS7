@@ -31,7 +31,7 @@ public class ClassTypesBuilder extends OutputFileWriter {
     }
 
     private boolean checkIfClassShouldBeProcessed(ClassContext c) {
-        return !getTypeName(c).isEmpty();
+        return !getTypeName(c).isEmpty() && !c.getFields().isEmpty();
     }
 
     private String getTypeFromClassContext(ClassContext c) {
