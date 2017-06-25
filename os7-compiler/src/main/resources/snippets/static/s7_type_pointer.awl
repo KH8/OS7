@@ -1,8 +1,8 @@
 TYPE "POINTER"
 VERSION : $VERSION
     STRUCT
-        DB_NO : INT;     //Database number
-        START : DINT;    //Database starting byte
-        LENGTH : INT;    //Data length in bytes
+        DB_NO : INT; //Database number
+        START : DINT; //Database starting byte
+        LENGTH : INT; //Data length in bytes
     END_STRUCT;
 END_TYPE
