@@ -47,7 +47,7 @@ public class ClassTypesBuilder extends OutputFileWriter {
         Collections.reverse(fields);
         for (FieldContext fc : fields) {
             String name = getName(fc.getF().getName());
-            S7Type type = new S7Type("INT", "", new S7CodeComponents<>());
+            S7Type type = new S7Type(getTypeName(fc.getF().getType()), "", new S7CodeComponents<>());
             S7Parameter p = new S7Parameter(name, type,
                     "Class field " + fc.getF().getName() + " of type: " + fc.getF().getType().getSimpleName());
             parameters.add(p);
@@ -56,7 +56,11 @@ public class ClassTypesBuilder extends OutputFileWriter {
     }
 
     private String getTypeName(ClassContext c) {
-        return getName(c.getC().getSimpleName());
+        return getTypeName(c.getC());
+    }
+
+    private String getTypeName(Class c) {
+        return getName(c.getSimpleName());
     }
 
     private String getName(String name) {

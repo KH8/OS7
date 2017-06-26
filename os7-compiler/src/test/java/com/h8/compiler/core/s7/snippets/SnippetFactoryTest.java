@@ -1,11 +1,8 @@
 package com.h8.compiler.core.s7.snippets;
 
-import com.h8.compiler.core.s7.snippets.S7DynamicSnippet;
-import com.h8.compiler.core.s7.snippets.SnippetFactory;
-import com.h8.compiler.core.s7.snippets.SnippetParameter;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class SnippetFactoryTest {
     @Test
@@ -48,7 +45,7 @@ public class SnippetFactoryTest {
         sp.put("PARAMETERS", parameters);
 
         String result = new SnippetFactory().create(S7DynamicSnippet.TYPE, sp);
-        assertTrue(result.contains("TEST_NAME1 : TEST_TYPE1; //TEST_COMMENT1"));
-        assertTrue(result.contains("TEST_NAME2 : TEST_TYPE2; //TEST_COMMENT2"));
+        assertTrue(result.contains("TEST_NAME1 : \"TEST_TYPE1\"; //TEST_COMMENT1"));
+        assertTrue(result.contains("TEST_NAME2 : \"TEST_TYPE2\"; //TEST_COMMENT2"));
     }
 }
